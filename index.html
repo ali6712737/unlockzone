@@ -323,11 +323,11 @@
             </div>
         </div>
 
-        <!-- RIGHT: RECENT LINK HISTORY (REPLACED THE TABLE) -->
+        <!-- RIGHT: RECENT LINK HISTORY (PRIVATE FILTER ENABLED) -->
         <div class="card">
-            <h2>Recent Link History</h2>
+            <h2>My Created Links History</h2>
             <div class="history-list" id="historyContainer">
-                <p style="text-align:center; color:var(--muted); font-size:13px; padding:10px;">Loading historical stream configurations...</p>
+                <p style="text-align:center; color:var(--muted); font-size:13px; padding:10px;">Loading your custom link stream...</p>
             </div>
         </div>
     </div>
@@ -374,21 +374,15 @@
     let stack = [];
 
     function openModal() { document.getElementById('actionModal').classList.add('open'); }
-    function closeModal() { document.getElementById('actionModal').classList.remove('remove-btn'); document.getElementById('actionModal').classList.remove('open'); }
+    function closeModal() { document.getElementById('actionModal').classList.remove('open'); }
 
-    // INTELLIGENT AUTO-FILL CONTROLLER
     function chooseAction(name, color, icon) {
         closeModal();
-        
-        // Browser memory check for previous link matching this action item
         const cachedUrl = localStorage.getItem(`saved_link_${name}`) || '';
-        
         const url = prompt(`Paste complete URL destination link for [${name}]:`, cachedUrl);
         if(!url) return;
         
-        // Save link inside local browser storage to auto-populate next time
         localStorage.setItem(`saved_link_${name}`, url);
-        
         stack.push({ name, color, icon, url });
         renderStack();
     }
@@ -423,6 +417,11 @@
         if(error) {
             alert('Slug already exists or DB connection dropped. Try a unique keyword name.');
         } else {
+            // SAVE TO USER'S CREATION COOKIE STACK (LOCAL STORAGE)
+            let userLinks = JSON.parse(localStorage.getItem('my_created_slugs') || '[]');
+            userLinks.push(slug);
+            localStorage.setItem('my_created_slugs', JSON.stringify(userLinks));
+
             const deployedURL = window.location.origin + '/unlock.html?s=' + slug;
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('finalLink').value = deployedURL;
@@ -434,15 +433,23 @@
         }
     }
 
-    // PREMIUM RECENT LINKS HISTORY GENERATOR
+    // PRIVACY FILTER: FETCH ONLY CURRENT USER SLUGS FROM SUPABASE
     async function fetchLinksHistory() {
-        const { data, error } = await sb.from('links').select('*').order('created_at', { ascending: false }).limit(15);
+        const userLinks = JSON.parse(localStorage.getItem('my_created_slugs') || '[]');
+        const historyContainer = document.getElementById('historyContainer');
+        
+        if(userLinks.length === 0) {
+            historyContainer.innerHTML = `<p style="text-align:center; color:var(--muted); font-size:13px; padding:10px;">You haven't created any links on this device yet.</p>`;
+            return;
+        }
+
+        // Fetch matching items from Supabase that belong to this local array filter
+        const { data, error } = await sb.from('links').select('*').in('slug', userLinks).order('created_at', { ascending: false });
         if(error) return;
         
-        const historyContainer = document.getElementById('historyContainer');
         historyContainer.innerHTML = '';
         
-        if(data.length === 0) {
+        if(!data || data.length === 0) {
             historyContainer.innerHTML = `<p style="text-align:center; color:var(--muted); font-size:13px; padding:10px;">No links created yet.</p>`;
             return;
         }
