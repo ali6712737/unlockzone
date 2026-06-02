@@ -1,149 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>UnlockZone Dashboard — Link Creator</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--surface:#111118;--surface2:#1a1a24;--border:#2a2a38;--accent:#00e5a0;--text:#f0f0f8;--muted:#6b6b85}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:2rem;display:flex;justify-content:center;align-items:center}
-.container{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:2.5rem;width:100%;max-width:600px}
-h1{font-family:'Syne',sans-serif;font-size:26px;margin-bottom:1.5rem;text-align:center}
-h1 span{color:var(--accent)}
-label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-input{width:100%;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;color:#fff;font-size:15px;margin-bottom:1.5rem;transition:border-color 0.2s}
-input:focus{outline:none;border-color:var(--accent)}
-.btn{width:100%;padding:14px;background:var(--accent);color:#0a0a0f;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;transition:transform 0.2s}
-.btn:hover{transform:translateY(-1px)}
-.action-list{margin-bottom:1.5rem}
-.action-item{display:flex;align-items:center;justify-content:between;background:var(--surface2);padding:12px 16px;border-radius:12px;margin-bottom:8px;border:1px solid var(--border)}
-.action-item span{font-size:14px;font-weight:500}
-.remove-btn{color:#ff4757;background:none;border:none;cursor:pointer;font-weight:700}
-.add-action-btn{background:transparent;border:1px dashed var(--accent);color:var(--accent);padding:10px;width:100%;border-radius:12px;cursor:pointer;font-weight:700;margin-bottom:1.5rem}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UnlockZone Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f;
+            --surface: #111118;
+            --surface2: #1a1a24;
+            --border: #2a2a38;
+            --accent: #00e5a0;
+            --text: #f0f0f8;
+            --muted: #6b6b85;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+        }
+        header h1 span { color: var(--accent); }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        @media(min-width: 768px) {
+            .grid { grid-template-columns: 450px 1fr; }
+        }
 
-/* MODAL / POPUP AS PER capture_2.PNG, w.PNG, n.PNG */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);display:none;align-items:center;justify-content:center;z-index:100;padding:1rem}
-.modal.open{display:flex}
-.modal-content{background:#ffffff;color:#111;border-radius:16px;padding:1.5rem;width:100%;max-width:650px;max-height:90vh;overflow-y:auto;position:relative}
-.modal-close{position:absolute;top:12px;right:16px;font-size:22px;cursor:pointer;color:#555}
-.modal-title{font-size:20px;font-weight:700;margin-bottom:1.5rem;border-bottom:2px solid #ff4757;padding-bottom:8px}
-.platform-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1rem}
-@media(max-width:500px){.platform-grid{grid-template-columns:1fr}}
-.platform-section h3{font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:6px;color:#333}
-.action-opt{display:flex;align-items:center;gap:10px;background:#f5f6f8;padding:12px;border-radius:8px;margin-bottom:6px;cursor:pointer;transition:background 0.2s;font-size:13px;font-weight:500}
-.action-opt:hover{background:#e8eaf0}
-.action-opt img{width:16px;height:16px}
-.input-popup-group{background:var(--surface2);padding:12px;border-radius:12px;margin-bottom:12px;border:1px solid var(--border)}
-.input-popup-group label{color:var(--text)}
-</style>
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            height: fit-content;
+        }
+        h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 20px;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 15px;
+            margin-bottom: 1.25rem;
+            transition: border-color 0.2s;
+        }
+        input:focus { outline: none; border-color: var(--accent); }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            color: #0a0a0f;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: 'Syne', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,229,160,0.2); }
+        
+        .add-action-btn {
+            background: transparent;
+            border: 1px dashed var(--accent);
+            color: var(--accent);
+            padding: 12px;
+            width: 100%;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            transition: background 0.2s;
+        }
+        .add-action-btn:hover { background: rgba(0,229,160,0.05); }
+
+        .action-list { margin-bottom: 1.25rem; }
+        .action-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface2);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border);
+        }
+        .action-item span { font-size: 14px; }
+        .remove-btn { color: #ff4757; background: none; border: none; cursor: pointer; font-weight: 700; }
+
+        /* TABLE STYLES */
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th { padding: 12px; color: var(--muted); font-size: 12px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+        td { padding: 16px 12px; font-size: 14px; border-bottom: 1px solid var(--border); color: #e2e8f0; }
+        .copy-badge { background: var(--surface2); border: 1px solid var(--border); padding: 4px 8px; border-radius: 6px; color: var(--accent); cursor: pointer; font-size: 12px; }
+
+        /* MODAL FROM capture_2.PNG, w.PNG, n.PNG */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
+        .modal.open { display: flex; }
+        .modal-content { background: #ffffff; color: #111; border-radius: 20px; padding: 2rem; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; position: relative; }
+        .modal-close { position: absolute; top: 16px; right: 20px; font-size: 24px; cursor: pointer; color: #555; }
+        .modal-title { font-size: 22px; font-weight: 700; margin-bottom: 1.5rem; border-bottom: 2px solid #ff4757; padding-bottom: 8px; font-family: 'Syne', sans-serif; }
+        .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        @media(max-width: 550px) { .platform-grid { grid-template-columns: 1fr; } }
+        .platform-section h3 { font-size: 15px; margin-bottom: 10px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 4px; }
+        .action-opt { display: flex; align-items: center; gap: 10px; background: #f5f6f8; padding: 12px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; font-size: 13px; font-weight: 600; }
+        .action-opt:hover { background: #e8eaf0; }
+
+        /* ADS PANEL */
+        .ad-container { margin: 2rem 0; text-align: center; }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Unlock<span>Zone</span> Panel</h1>
-  
-  <label>Target Destination URL (Locked Link)</label>
-  <input type="url" id="lockedUrl" placeholder="https://example.com/your-file-download" required/>
+    <header>
+        <h1>Unlock<span>Zone</span> Partner Network</h1>
+    </header>
 
-  <label>Required Requirements / Steps</label>
-  <div class="action-list" id="selectedActionsList"></div>
-  <button class="add-action-btn" onclick="openModal()">+ Add Verification Requirement</button>
+    <!-- TOP BANNER AD -->
+    <div class="ad-container">
+        <script>
+            atOptions = {'key':'b9ebecd0cfa2dc32d533ff77ece0ce73','format':'iframe','height':60,'width':468,'params':{}};
+        </script>
+        <script src="https://www.highperformanceformat.com/b9ebecd0cfa2dc32d533ff77ece0ce73/invoke.js"></script>
+    </div>
 
-  <button class="btn" onclick="generateLink()">Create Intelligent Lock Link</button>
+    <div class="grid">
+        <!-- LEFT: LINK GENERATOR -->
+        <div class="card">
+            <h2>Create New Lock</h2>
+            
+            <label>Target Destination URL</label>
+            <input type="url" id="lockedUrl" placeholder="https://mediafire.com/file-download" required>
 
-  <div id="resultBox" style="margin-top:1.5rem; display:none; text-align:center;">
-    <label>Your Live Link</label>
-    <input type="text" id="finalLink" readonly onclick="this.select()"/>
-    <p style="font-size:12px; color:var(--accent)">Click inside the box to copy link!</p>
-  </div>
+            <label>Custom Link Slash/Slug (Optional)</label>
+            <input type="text" id="customSlug" placeholder="fr-legends-mod-v2">
+
+            <label>Lock Steps / Requirements</label>
+            <div class="action-list" id="selectedActionsList"></div>
+            <button class="add-action-btn" onclick="openModal()">+ Add Action Requirement</button>
+
+            <button class="btn" onclick="generateLink()">Generate Smart Lock</button>
+
+            <div id="resultBox" style="margin-top: 1.5rem; display: none;">
+                <label style="color: var(--accent);">Your Locked URL Generated:</label>
+                <input type="text" id="finalLink" readonly onclick="this.select()">
+            </div>
+        </div>
+
+        <!-- RIGHT: REVENUE LINKS DATA LIST -->
+        <div class="card">
+            <h2>Your Active Links & Database</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Slug / Path</th>
+                            <th>Target URL</th>
+                            <th>Actions</th>
+                            <th>Get Link</th>
+                        </tr>
+                    </thead>
+                    <tbody id="linksTableBody">
+                        <tr>
+                            <td colspan="4" style="text-align:center; color:var(--muted);">Syncing secure database entries...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- CAPTURE_2 MODAL SYSTEM -->
+<!-- CAPTURE_2 ACTION MODAL POPUP -->
 <div class="modal" id="actionModal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeModal()">&times;</span>
-    <div class="modal-title">Select Action to add</div>
-    
-    <div class="platform-grid">
-      <!-- YouTube -->
-      <div class="platform-section">
-        <h3>🔴 YouTube</h3>
-        <div class="action-opt" onclick="chooseAction('Subscribe Channel', '#FF0000', '🔴')">Subscribe Channel</div>
-        <div class="action-opt" onclick="chooseAction('Like & Comment Video', '#FF0000', '👍')">Like & Comment on Video</div>
-        <div class="action-opt" onclick="chooseAction('Share Video', '#FF0000', '📢')">Share Video</div>
-      </div>
-      <!-- Telegram -->
-      <div class="platform-section">
-        <h3>🔵 Telegram</h3>
-        <div class="action-opt" onclick="chooseAction('Join Telegram', '#229ED9', '✈️')">Join Telegram</div>
-      </div>
-      <!-- Instagram & TikTok -->
-      <div class="platform-section">
-        <h3>📸 Instagram & TikTok</h3>
-        <div class="action-opt" onclick="chooseAction('Like On Instagram', '#E1306C', '📸')">Like On Instagram</div>
-        <div class="action-opt" onclick="chooseAction('Follow on TikTok', '#000000', '🎵')">Follow on TikTok</div>
-      </div>
-      <!-- Discord & Others -->
-      <div class="platform-section">
-        <h3>👾 Discord & Communities</h3>
-        <div class="action-opt" onclick="chooseAction('Join Discord', '#5865F2', '👾')">Join Discord</div>
-        <div class="action-opt" onclick="chooseAction('Follow on X/Twitter', '#1DA1F2', '🐦')">Follow on X/Twitter</div>
-      </div>
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <div class="modal-title">Select Action to add</div>
+        
+        <div class="platform-grid">
+            <!-- YouTube Section -->
+            <div class="platform-section">
+                <h3>🔴 YouTube</h3>
+                <div class="action-opt" onclick="chooseAction('Subscribe Channel', '#FF0000', '🔴')">Subscribe Channel</div>
+                <div class="action-opt" onclick="chooseAction('Like & Comment on Video', '#FF0000', '👍')">Like & Comment on Video</div>
+                <div class="action-opt" onclick="chooseAction('Share Video', '#FF0000', '📢')">Share Video</div>
+            </div>
+            <!-- Facebook & Telegram -->
+            <div class="platform-section">
+                <h3>🔵 Social Platforms</h3>
+                <div class="action-opt" onclick="chooseAction('Follow on Facebook', '#1877F2', '📘')">Follow on Facebook</div>
+                <div class="action-opt" onclick="chooseAction('Like Facebook Post', '#1877F2', '👍')">Like Facebook Post</div>
+                <div class="action-opt" onclick="chooseAction('Join Telegram', '#229ED9', '✈️')">Join Telegram</div>
+            </div>
+            <!-- Instagram & TikTok -->
+            <div class="platform-section">
+                <h3>📸 Short Videos Systems</h3>
+                <div class="action-opt" onclick="chooseAction('Follow on Instagram', '#E1306C', '📸')">Follow on Instagram</div>
+                <div class="action-opt" onclick="chooseAction('Like Instagram Post', '#E1306C', '❤️')">Like Instagram Post</div>
+                <div class="action-opt" onclick="chooseAction('Follow on TikTok', '#000000', '🎵')">Follow on TikTok</div>
+            </div>
+            <!-- Discord & Others -->
+            <div class="platform-section">
+                <h3>👾 Gaming Communities</h3>
+                <div class="action-opt" onclick="chooseAction('Join Discord', '#5865F2', '👾')">Join Discord</div>
+                <div class="action-opt" onclick="chooseAction('Follow on X/Twitter', '#1DA1F2', '🐦')">Follow on X/Twitter</div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let stack = [];
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    let stack = [];
 
-function openModal(){ document.getElementById('actionModal').classList.add('open'); }
-function closeModal(){ document.getElementById('actionModal').classList.remove('open'); }
+    function openModal() { document.getElementById('actionModal').classList.add('open'); }
+    function closeModal() { document.getElementById('actionModal').classList.remove('open'); }
 
-function chooseAction(name, color, icon) {
-  closeModal();
-  const url = prompt(`Enter URL for: ${name}`);
-  if(!url) return;
-  
-  stack.push({ name, color, icon, url });
-  renderStack();
-}
+    function chooseAction(name, color, icon) {
+        closeModal();
+        const url = prompt(`Paste complete URL destination link for [${name}]:`);
+        if(!url) return;
+        stack.push({ name, color, icon, url });
+        renderStack();
+    }
 
-function renderStack(){
-  const container = document.getElementById('selectedActionsList');
-  container.innerHTML = '';
-  stack.forEach((item, i) => {
-    container.innerHTML += `
-      <div class="action-item">
-        <span>${item.icon} <strong>${item.name}</strong></span>
-        <button class="remove-btn" onclick="removeStack(${i})">Remove</button>
-      </div>
-    `;
-  });
-}
+    function renderStack() {
+        const container = document.getElementById('selectedActionsList');
+        container.innerHTML = '';
+        stack.forEach((item, i) => {
+            container.innerHTML += `
+                <div class="action-item">
+                    <span>${item.icon} <strong>${item.name}</strong></span>
+                    <button class="remove-btn" onclick="removeStack(${i})">Remove</button>
+                </div>
+            `;
+        });
+    }
 
-function removeStack(i){
-  stack.splice(i, 1);
-  renderStack();
-}
+    function removeStack(i) {
+        stack.splice(i, 1);
+        renderStack();
+    }
 
-async function generateLink(){
-  const dest = document.getElementById('lockedUrl').value;
-  if(!dest || stack.length === 0){ alert('Please add a target URL and at least one tracking step.'); return; }
+    async function generateLink() {
+        const dest = document.getElementById('lockedUrl').value;
+        let slug = document.getElementById('customSlug').value.trim().replace(/[^a-zA-Z0-9-_]/g, '-');
+        
+        if(!dest || stack.length === 0) { alert('Please insert your download link and append at least 1 action requirement.'); return; }
+        if(!slug) { slug = Math.random().toString(36).substring(2, 8); }
 
-  const slug = Math.random().toString(36).substring(2, 8);
-  const { error } = await sb.from('links').insert([{ slug: slug, locked_url: dest, channels: JSON.stringify(stack) }]);
+        const { error } = await sb.from('links').insert([{ slug: slug, locked_url: dest, channels: JSON.stringify(stack) }]);
+        
+        if(error) {
+            alert('Slug already exists or DB connection dropped. Try a unique keyword name.');
+        } else {
+            const deployedURL = window.location.origin + '/unlock.html?s=' + slug;
+            document.getElementById('resultBox').style.display = 'block';
+            document.getElementById('finalLink').value = deployedURL;
+            stack = [];
+            renderStack();
+            document.getElementById('lockedUrl').value = '';
+            document.getElementById('customSlug').value = '';
+            fetchLinks();
+        }
+    }
 
-  if(error) { alert('Database saving error'); } 
-  else {
-    document.getElementById('resultBox').style.style.display = 'block';
-    document.getElementById('finalLink').value = window.location.origin + '/unlock.html?s=' + slug;
-  }
-}
+    async function fetchLinks() {
+        const { data, error } = await sb.from('links').select('*').order('created_at', { ascending: false });
+        if(error) return;
+        
+        const tbody = document.getElementById('linksTableBody');
+        tbody.innerHTML = '';
+        
+        if(data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--muted)">No locked links found in project storage.</td></tr>`;
+            return;
+        }
+
+        data.forEach(row => {
+            const fullPath = window.location.origin + '/unlock.html?s=' + row.slug;
+            const stepData = JSON.parse(row.channels || '[]');
+            tbody.innerHTML += `
+                <tr>
+                    <td style="color:var(--accent); font-weight:700;">/${row.slug}</td>
+                    <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${row.locked_url}</td>
+                    <td><small>${stepData.length} Verification Steps</small></td>
+                    <td><span class="copy-badge" onclick="navigator.clipboard.writeText('${fullPath}'); alert('Link copied to dashboard clipboard!')">Copy Link</span></td>
+                </tr>
+            `;
+        });
+    }
+
+    fetchLinks();
 </script>
 </body>
 </html>
