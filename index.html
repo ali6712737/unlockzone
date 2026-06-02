@@ -4,262 +4,284 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>UnlockZone — Create Locked Links</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0a0f;
-  --surface:#111118;
-  --surface2:#1a1a24;
-  --border:#2a2a38;
+  --bg:#07070f;
+  --surface:#0f0f1a;
+  --surface2:#161625;
+  --border:#1e1e30;
   --accent:#00e5a0;
   --accent2:#7c3aed;
-  --text:#f0f0f8;
-  --muted:#6b6b85;
+  --text:#eeeef8;
+  --muted:#5a5a78;
   --red:#ff4757;
 }
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
-
-/* BG EFFECT */
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+}
 body::before{
-  content:'';position:fixed;inset:0;
-  background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(124,58,237,0.15),transparent),
-             radial-gradient(ellipse 60% 40% at 80% 80%,rgba(0,229,160,0.08),transparent);
-  pointer-events:none;z-index:0
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 900px 500px at 50% -100px,rgba(124,58,237,0.18),transparent),
+    radial-gradient(ellipse 600px 400px at 100% 100%,rgba(0,229,160,0.07),transparent);
 }
-
-.container{max-width:680px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
-
-/* HEADER */
-header{padding:2rem 0 0;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.5px}
-.logo span{color:var(--accent)}
-.badge{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.2);color:var(--accent);font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500}
-
+ 
+.page{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:2rem 1.25rem 4rem}
+ 
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding-bottom:2.5rem}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;letter-spacing:-0.5px}
+.logo em{color:var(--accent);font-style:normal}
+.pill{font-size:11px;font-weight:600;letter-spacing:1px;padding:5px 12px;border-radius:100px;border:1px solid rgba(0,229,160,0.25);color:var(--accent);background:rgba(0,229,160,0.06)}
+ 
 /* HERO */
-.hero{padding:3rem 0 2rem;text-align:center}
-.hero h1{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,42px);font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:0.75rem}
+.hero{text-align:center;margin-bottom:2.5rem}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(26px,6vw,38px);font-weight:800;line-height:1.15;letter-spacing:-1px;margin-bottom:0.6rem}
 .hero h1 em{color:var(--accent);font-style:normal}
-.hero p{color:var(--muted);font-size:15px;max-width:400px;margin:0 auto}
-
-/* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,58,237,0.04),transparent 60%);pointer-events:none}
-.card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
-.card-title::before{content:'';width:3px;height:13px;background:var(--accent);border-radius:2px;display:inline-block}
-
-/* STEP BADGE */
-.step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent2);color:#fff;font-size:11px;font-weight:700;flex-shrink:0}
-
-/* INPUTS */
-label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:500}
+.hero p{font-size:14px;color:var(--muted);max-width:360px;margin:0 auto;line-height:1.7}
+ 
+/* FORM CARD */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:1.5rem;
+  margin-bottom:1rem;
+}
+.card-head{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);
+  margin-bottom:1.25rem;display:flex;align-items:center;gap:10px;
+}
+.num{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--accent2);color:#fff;
+  font-size:10px;font-weight:700;display:inline-flex;
+  align-items:center;justify-content:center;flex-shrink:0;
+}
+ 
+label{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-bottom:5px}
 input[type=text]{
-  width:100%;background:var(--surface2);border:1px solid var(--border);
-  border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;
-  font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s
+  width:100%;background:var(--surface2);
+  border:1px solid var(--border);border-radius:10px;
+  padding:11px 13px;color:var(--text);font-size:14px;
+  font-family:'DM Sans',sans-serif;outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
 }
-input[type=text]:focus{border-color:var(--accent)}
+input[type=text]:focus{border-color:rgba(0,229,160,0.4);box-shadow:0 0 0 3px rgba(0,229,160,0.06)}
 input[type=text]::placeholder{color:var(--muted)}
-
-.channel-row{display:flex;gap:8px;margin-bottom:10px;align-items:center}
-.channel-row input{flex:1}
-.remove-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.2);color:var(--red);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0}
-.remove-btn:hover{background:rgba(255,71,87,0.2)}
-
-.add-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:1px dashed var(--border);color:var(--muted);font-size:13px;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;margin-top:4px}
-.add-btn:hover{border-color:var(--accent);color:var(--accent)}
-
-/* MAIN BTN */
-.main-btn{
-  width:100%;padding:14px;background:var(--accent);color:#0a0a0f;
-  border:none;border-radius:12px;font-size:15px;font-weight:700;
-  font-family:'Syne',sans-serif;cursor:pointer;letter-spacing:0.5px;
-  transition:all 0.2s;margin-top:1rem
+ 
+.ch-row{display:grid;grid-template-columns:1fr 1.6fr auto;gap:8px;margin-bottom:10px;align-items:end}
+.ch-row .field{display:flex;flex-direction:column}
+.del{
+  width:36px;height:38px;border-radius:8px;margin-bottom:0;
+  background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.15);
+  color:var(--red);cursor:pointer;font-size:17px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s;flex-shrink:0;
 }
-.main-btn:hover{background:#00ffb3;transform:translateY(-1px)}
-.main-btn:active{transform:translateY(0)}
-.main-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-
-/* RESULT BOX */
-.result-box{display:none;background:var(--surface2);border:1px solid rgba(0,229,160,0.3);border-radius:14px;padding:1.25rem;margin-top:1.25rem}
-.result-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
-.result-url{font-size:13px;color:var(--text);word-break:break-all;background:var(--bg);padding:10px 12px;border-radius:8px;border:1px solid var(--border);margin-bottom:10px;font-family:monospace}
-.copy-btn{width:100%;padding:10px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);color:var(--accent);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all 0.2s}
-.copy-btn:hover{background:rgba(0,229,160,0.2)}
-.copy-btn.copied{background:rgba(0,229,160,0.2);color:#00ffb3}
-
-/* TOAST */
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--accent);color:#0a0a0f;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;transition:transform 0.3s;z-index:999;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
+.del:hover{background:rgba(255,71,87,0.18)}
+ 
+.add-ch{
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;border:1px dashed var(--border);
+  color:var(--muted);font-size:12px;padding:7px 13px;
+  border-radius:8px;cursor:pointer;
+  transition:all 0.2s;font-family:'DM Sans',sans-serif;
+  margin-top:2px;
+}
+.add-ch:hover{border-color:var(--accent);color:var(--accent)}
+ 
+.err-msg{font-size:12px;color:var(--red);margin-top:6px;display:none}
+ 
+/* GENERATE BTN */
+.gen-btn{
+  width:100%;padding:14px;
+  background:var(--accent);color:#07070f;
+  border:none;border-radius:12px;
+  font-size:15px;font-weight:700;font-family:'Syne',sans-serif;
+  cursor:pointer;letter-spacing:0.3px;
+  transition:all 0.18s;margin-top:0.5rem;
+}
+.gen-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.gen-btn:active{transform:translateY(0)}
+.gen-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;filter:none}
+ 
+/* RESULT */
+.result{
+  display:none;margin-top:1rem;
+  background:var(--surface);border:1px solid rgba(0,229,160,0.2);
+  border-radius:14px;padding:1.25rem;
+}
+.result-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.result-url{
+  font-size:12.5px;color:var(--text);word-break:break-all;
+  background:var(--bg);padding:10px 12px;border-radius:8px;
+  border:1px solid var(--border);margin-bottom:10px;font-family:monospace;line-height:1.5;
+}
+.copy-btn{
+  width:100%;padding:10px;
+  background:rgba(0,229,160,0.08);
+  border:1px solid rgba(0,229,160,0.2);
+  color:var(--accent);border-radius:8px;
+  cursor:pointer;font-size:13px;font-weight:600;
+  font-family:'DM Sans',sans-serif;transition:all 0.2s;
+}
+.copy-btn:hover{background:rgba(0,229,160,0.15)}
+.copy-btn.ok{background:rgba(0,229,160,0.15);color:#00ffb3}
+ 
 /* HOW IT WORKS */
-.how{padding:1rem 0 3rem}
-.how h2{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;text-align:center;margin-bottom:1.5rem;color:var(--muted)}
-.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.step-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;text-align:center}
-.step-icon{font-size:28px;margin-bottom:0.5rem}
-.step-card h3{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:0.25rem}
-.step-card p{font-size:12px;color:var(--muted)}
-
-/* ERROR */
-.err{color:var(--red);font-size:12px;margin-top:6px;display:none}
-
-@media(max-width:480px){.steps-grid{grid-template-columns:1fr}}
+.how{margin-top:2.5rem}
+.how-title{text-align:center;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.1rem;text-align:center}
+.step-ico{font-size:26px;margin-bottom:0.5rem}
+.step h3{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;margin-bottom:0.3rem}
+.step p{font-size:11px;color:var(--muted);line-height:1.5}
+ 
+/* TOAST */
+.toast{
+  position:fixed;bottom:1.5rem;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--accent);color:#07070f;
+  padding:10px 22px;border-radius:100px;
+  font-size:13px;font-weight:700;
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  z-index:999;white-space:nowrap;pointer-events:none;
+}
+.toast.up{transform:translateX(-50%) translateY(0)}
+ 
+@media(max-width:480px){
+  .ch-row{grid-template-columns:1fr 1fr auto}
+  .steps{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="logo">Unlock<span>Zone</span></div>
-    <div class="badge">FREE TOOL</div>
-  </header>
-
+<div class="page">
+  <nav>
+    <div class="logo">Unlock<em>Zone</em></div>
+    <div class="pill">FREE TOOL</div>
+  </nav>
+ 
   <div class="hero">
     <h1>Lock Your Links.<br/><em>Grow Your Channel.</em></h1>
-    <p>Visitors subscribe to your YouTube channels before they can access your content.</p>
+    <p>Visitors must subscribe to your YouTube channels before they can access your content.</p>
   </div>
-
-  <!-- STEP 1: CHANNELS -->
+ 
+  <!-- STEP 1 -->
   <div class="card">
-    <div class="card-title"><span class="step">1</span> Your YouTube Channels</div>
-    <div id="channelList">
-      <div class="channel-row">
-        <div style="flex:1">
-          <label>Channel Name</label>
-          <input type="text" placeholder="e.g. Ali Gaming Mods" class="ch-name"/>
-        </div>
-        <div style="flex:1.5">
-          <label>Channel URL</label>
-          <input type="text" placeholder="https://youtube.com/@yourchannel" class="ch-url"/>
-        </div>
+    <div class="card-head"><span class="num">1</span> Your YouTube Channels</div>
+    <div id="chList">
+      <div class="ch-row">
+        <div class="field"><label>Channel Name</label><input type="text" class="ch-name" placeholder="My Gaming Channel"/></div>
+        <div class="field"><label>Channel URL</label><input type="text" class="ch-url" placeholder="https://youtube.com/@channel"/></div>
+        <div style="padding-bottom:0px"></div>
       </div>
     </div>
-    <p class="err" id="chErr">Kam az kam ek channel daalo!</p>
-    <button class="add-btn" onclick="addChannel()">+ Aur channel add karo (max 4)</button>
+    <p class="err-msg" id="chErr">Please add at least one channel.</p>
+    <button class="add-ch" onclick="addCh()">+ Add another channel (max 4)</button>
   </div>
-
-  <!-- STEP 2: CONTENT -->
+ 
+  <!-- STEP 2 -->
   <div class="card">
-    <div class="card-title"><span class="step">2</span> Locked Content</div>
-    <label>Download / Content Link</label>
-    <input type="text" id="lockedUrl" placeholder="https://drive.google.com/... ya koi bhi link"/>
-    <p class="err" id="urlErr">Link daalna zaruri hai!</p>
+    <div class="card-head"><span class="num">2</span> Locked Content</div>
+    <label>Your Download / Content Link</label>
+    <input type="text" id="lockedUrl" placeholder="https://drive.google.com/... or any link"/>
+    <p class="err-msg" id="urlErr">Please enter your content link.</p>
   </div>
-
-  <!-- GENERATE -->
-  <button class="main-btn" id="genBtn" onclick="generateLink()">🔒 Locked Link Banao</button>
-
-  <!-- RESULT -->
-  <div class="result-box" id="resultBox">
-    <div class="result-label">✅ Tera Locked Link Ready Hai!</div>
+ 
+  <button class="gen-btn" id="genBtn" onclick="generate()">🔒 Generate Locked Link</button>
+ 
+  <div class="result" id="result">
+    <div class="result-tag">✅ Your Locked Link is Ready!</div>
     <div class="result-url" id="resultUrl"></div>
-    <button class="copy-btn" id="copyBtn" onclick="copyLink()">📋 Link Copy Karo</button>
+    <button class="copy-btn" id="copyBtn" onclick="copyIt()">📋 Copy Link</button>
   </div>
-
-  <!-- HOW IT WORKS -->
+ 
   <div class="how">
-    <h2>Yeh kaam kaise karta hai?</h2>
-    <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-icon">🔗</div>
-        <h3>Link Banao</h3>
-        <p>Channel aur content link daal ke locked link generate karo</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon">📢</div>
-        <h3>Share Karo</h3>
-        <p>Apni videos mein yeh link share karo description mein</p>
-      </div>
-      <div class="step-card">
-        <div class="step-icon">🚀</div>
-        <h3>Subs Barhein</h3>
-        <p>Visitor subscribe kare aur content unlock kare!</p>
-      </div>
+    <div class="how-title">How It Works</div>
+    <div class="steps">
+      <div class="step"><div class="step-ico">🔗</div><h3>Create Link</h3><p>Add your channel and content link, generate a locked URL</p></div>
+      <div class="step"><div class="step-ico">📢</div><h3>Share It</h3><p>Put the locked link in your video descriptions</p></div>
+      <div class="step"><div class="step-ico">🚀</div><h3>Gain Subs</h3><p>Visitors subscribe then unlock your content!</p></div>
     </div>
   </div>
 </div>
-
-<div class="toast" id="toast">✅ Link copy ho gaya!</div>
-
+ 
+<div class="toast" id="toast"></div>
+ 
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let chCount = 1;
-
-function addChannel(){
-  if(chCount >= 4){ showToast('Maximum 4 channels allowed!'); return; }
-  const list = document.getElementById('channelList');
-  const row = document.createElement('div');
-  row.className = 'channel-row';
-  row.innerHTML = `
-    <div style="flex:1"><label>Channel Name</label><input type="text" placeholder="e.g. Ali Mods 2" class="ch-name"/></div>
-    <div style="flex:1.5"><label>Channel URL</label><input type="text" placeholder="https://youtube.com/@channel" class="ch-url"/></div>
-    <button class="remove-btn" onclick="this.parentElement.remove();chCount--">×</button>
+ 
+function addCh(){
+  if(chCount >= 4){ toast('Maximum 4 channels allowed.'); return; }
+  const list = document.getElementById('chList');
+  const d = document.createElement('div');
+  d.className = 'ch-row';
+  d.innerHTML = `
+    <div class="field"><label>Channel Name</label><input type="text" class="ch-name" placeholder="My Second Channel"/></div>
+    <div class="field"><label>Channel URL</label><input type="text" class="ch-url" placeholder="https://youtube.com/@channel2"/></div>
+    <button class="del" onclick="this.parentElement.remove();chCount--" title="Remove">×</button>
   `;
-  list.appendChild(row);
+  list.appendChild(d);
   chCount++;
 }
-
-function slugify(len=8){
-  return Math.random().toString(36).substring(2, 2+len);
-}
-
-async function generateLink(){
-  const btn = document.getElementById('genBtn');
-  // collect channels
+ 
+function rnd(n=8){ return Math.random().toString(36).substring(2,2+n); }
+ 
+async function generate(){
   const names = [...document.querySelectorAll('.ch-name')].map(i=>i.value.trim());
-  const urls = [...document.querySelectorAll('.ch-url')].map(i=>i.value.trim());
-  const lockedUrl = document.getElementById('lockedUrl').value.trim();
-
-  // validate
-  let valid = true;
-  if(!names[0] || !urls[0]){ document.getElementById('chErr').style.display='block'; valid=false; }
+  const urls  = [...document.querySelectorAll('.ch-url')].map(i=>i.value.trim());
+  const locked = document.getElementById('lockedUrl').value.trim();
+  let ok = true;
+  if(!names[0]||!urls[0]){ document.getElementById('chErr').style.display='block'; ok=false; }
   else document.getElementById('chErr').style.display='none';
-  if(!lockedUrl){ document.getElementById('urlErr').style.display='block'; valid=false; }
+  if(!locked){ document.getElementById('urlErr').style.display='block'; ok=false; }
   else document.getElementById('urlErr').style.display='none';
-  if(!valid) return;
-
-  btn.disabled = true;
-  btn.textContent = '⏳ Ban raha hai...';
-
+  if(!ok) return;
+ 
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true; btn.textContent = '⏳ Generating...';
+ 
   const channels = names.map((n,i)=>({name:n,url:urls[i]})).filter(c=>c.name&&c.url);
-  const slug = slugify();
-
-  const { error } = await sb.from('links').insert({
-    slug,
-    channels: JSON.stringify(channels),
-    locked_url: lockedUrl
-  });
-
-  btn.disabled = false;
-  btn.textContent = '🔒 Locked Link Banao';
-
-  if(error){ showToast('Error! Dobara try karo.'); console.error(error); return; }
-
-  const finalLink = `${location.origin}/unlock.html?s=${slug}`;
-  document.getElementById('resultUrl').textContent = finalLink;
-  document.getElementById('resultBox').style.display = 'block';
-  document.getElementById('resultBox').scrollIntoView({behavior:'smooth'});
+  const slug = rnd();
+  const { error } = await sb.from('links').insert({ slug, channels: JSON.stringify(channels), locked_url: locked });
+ 
+  btn.disabled = false; btn.textContent = '🔒 Generate Locked Link';
+  if(error){ toast('Error! Please try again.'); console.error(error); return; }
+ 
+  const link = `${location.origin}/unlock.html?s=${slug}`;
+  document.getElementById('resultUrl').textContent = link;
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').scrollIntoView({behavior:'smooth'});
 }
-
-function copyLink(){
+ 
+function copyIt(){
   const url = document.getElementById('resultUrl').textContent;
   navigator.clipboard.writeText(url).then(()=>{
-    const btn = document.getElementById('copyBtn');
-    btn.textContent = '✅ Copy Ho Gaya!';
-    btn.classList.add('copied');
-    showToast('Link copy ho gaya!');
-    setTimeout(()=>{ btn.textContent='📋 Link Copy Karo'; btn.classList.remove('copied'); }, 2000);
+    const b = document.getElementById('copyBtn');
+    b.textContent = '✅ Copied!'; b.classList.add('ok');
+    toast('Link copied!');
+    setTimeout(()=>{ b.textContent='📋 Copy Link'; b.classList.remove('ok'); }, 2500);
   });
 }
-
-function showToast(msg){
+ 
+function toast(msg){
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 3000);
+  t.textContent = msg; t.classList.add('up');
+  setTimeout(()=>t.classList.remove('up'), 3000);
 }
 </script>
 </body>
 </html>
+ 
