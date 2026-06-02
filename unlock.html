@@ -42,7 +42,6 @@
         }
         .logo span { color: var(--accent); }
 
-        /* RESPONSIVE MAIN CARD MODULE */
         .main-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -73,7 +72,6 @@
 
         .action-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.25rem; }
         
-        /* RESPONSIVE BUTTON WRAPPING */
         .step-btn {
             width: 100%;
             padding: 14px 16px;
@@ -115,7 +113,6 @@
         }
         .master-unlock-btn.active { opacity: 1; pointer-events: auto; cursor: pointer; }
 
-        /* RESPONSIVE AD SYSTEM CONTAINER OVERRIDES */
         .ad-box { 
             background: #f8fafc; 
             border: 1px dashed var(--border); 
@@ -149,7 +146,6 @@
 
     <div id="mainContent" style="display: none;">
 
-        <!-- AD SLOT 1: TOP -->
         <div class="ad-box" style="min-height: 95px;">
             <span>Sponsored Advertisement</span>
             <script>
@@ -159,7 +155,6 @@
         </div>
         <div style="margin-bottom: 1rem;"></div>
 
-        <!-- MIDDLE CARD LAYOUT -->
         <div class="main-card">
             <h1>Complete Steps to Unlock</h1>
             <div class="subtitle-pill">Complete the steps below</div>
@@ -174,14 +169,12 @@
             </a>
         </div>
 
-        <!-- AD SLOT 2: NATIVE -->
         <div class="ad-box" style="min-height: 110px;">
             <span>Recommended Content For You</span>
             <script async="async" data-cfasync="false" src="https://pl29616322.effectivecpmnetwork.com/82fd950482e132a6440fa72c346dde0e/invoke.js"></script>
             <div id="container-82fd950482e132a6440fa72c346dde0e"></div>
         </div>
 
-        <!-- AD SLOT 3: SQUARE -->
         <div class="ad-box" style="min-height: 285px;">
             <span>Trending Advertisements</span>
             <script>
@@ -250,6 +243,7 @@
         spinningLoader.style.display = 'block';
         wordingBox.innerHTML = `<span>⏳</span> <span>We are verifying...</span>`;
 
+        // FIXED 5 SECONDS ENGINE TIME PER BUTTON ACTION (5000ms)
         setTimeout(() => {
             buttonNode.classList.remove('verifying');
             buttonNode.classList.add('success-done');
@@ -266,7 +260,7 @@
                 triggerMasterElement.classList.add('active');
                 triggerMasterElement.href = lockedUrl;
             }
-        }, 20000);
+        }, 5000); // 5 Seconds Hook Window
     }
 
     initializePage();
