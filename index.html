@@ -179,68 +179,46 @@
 
         .remove-btn { color: #ff4757; background: none; border: none; cursor: pointer; font-weight: 700; font-size: 13px; flex-shrink: 0; }
 
-        /* RECENT LINK HISTORY BOX STYLES */
-        .history-list {
+        /* FEATURES AND BENEFITS LAYOUT SECTION */
+        .features-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
-        .history-item {
+        .feature-box {
             background: var(--surface2);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 14px;
+            padding: 16px;
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            align-items: flex-start;
+            gap: 14px;
         }
 
-        @media(min-width: 480px) {
-            .history-item {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-            }
-        }
-
-        .history-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            overflow: hidden;
-        }
-
-        .history-slug {
+        .feature-icon {
+            font-size: 24px;
+            background: rgba(0, 225, 160, 0.08);
+            padding: 10px;
+            border-radius: 10px;
             color: var(--accent);
-            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-texts h3 {
+            font-family: 'Syne', sans-serif;
             font-size: 15px;
-            text-decoration: none;
+            color: #fff;
+            margin-bottom: 4px;
         }
 
-        .history-url {
+        .feature-texts p {
             color: var(--muted);
-            font-size: 12px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .copy-badge { 
-            background: var(--surface); 
-            border: 1px solid var(--border); 
-            padding: 8px 14px; 
-            border-radius: 8px; 
-            color: var(--accent); 
-            cursor: pointer; 
-            font-size: 12px; 
-            font-weight: 700; 
-            white-space: nowrap; 
-            text-align: center;
-            align-self: flex-start;
-        }
-        @media(min-width: 480px) {
-            .copy-badge { align-self: center; }
+            font-size: 13px;
+            line-height: 1.5;
         }
 
         /* MODAL RESPONSIVE PANEL */
@@ -323,17 +301,49 @@
             </div>
         </div>
 
-        <!-- RIGHT: RECENT LINK HISTORY (PRIVATE FILTER ENABLED) -->
+        <!-- RIGHT: PREMIUM SYSTEM BENEFITS SECTION -->
         <div class="card">
-            <h2>My Created Links History</h2>
-            <div class="history-list" id="historyContainer">
-                <p style="text-align:center; color:var(--muted); font-size:13px; padding:10px;">Loading your custom link stream...</p>
+            <h2>Network Features & Benefits</h2>
+            <div class="features-container">
+                
+                <div class="feature-box">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-texts">
+                        <h3>High Conversion Growth</h3>
+                        <p>Boost your social media stats directly. Force users to complete verification steps like subscribing, liking, or sharing before releasing download access.</p>
+                    </div>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">⚙️</div>
+                    <div class="feature-texts">
+                        <h3>Smart Autofill Memory</h3>
+                        <p>Your browser perfectly saves every handle connection link. Add social targets once, and they populate automatically for every new link you build.</p>
+                    </div>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-texts">
+                        <h3>Anti-Bot API Protection</h3>
+                        <p>Secure database nodes combined with client checking filters prevent bots and crawlers from bypassing your sub-to-unlock monetization screens.</p>
+                    </div>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-texts">
+                        <h3>100% Fluid Mobile UI</h3>
+                        <p>Fully optimized responsive structures ensure seamless dynamic loading on mobile screens without unwanted container viewport overflows.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 </div>
 
-<!-- ACTIONS MODAL WITH AUTO-FILL MEMORY -->
+<!-- ACTIONS MODAL WITH AUTOMA-PRELOAD LOGIC -->
 <div class="modal" id="actionModal">
     <div class="modal-content">
         <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -376,13 +386,19 @@
     function openModal() { document.getElementById('actionModal').classList.add('open'); }
     function closeModal() { document.getElementById('actionModal').classList.remove('open'); }
 
+    // PERMANENT AUTO-FILL CONTROLLER USING BROWSER LOCAL STORAGE
     function chooseAction(name, color, icon) {
         closeModal();
+        
+        // Auto-fetch already cached system paths matching the unique item key name
         const cachedUrl = localStorage.getItem(`saved_link_${name}`) || '';
+        
         const url = prompt(`Paste complete URL destination link for [${name}]:`, cachedUrl);
         if(!url) return;
         
+        // Store permanently into local browser cookies stack layer 
         localStorage.setItem(`saved_link_${name}`, url);
+        
         stack.push({ name, color, icon, url });
         renderStack();
     }
@@ -417,11 +433,6 @@
         if(error) {
             alert('Slug already exists or DB connection dropped. Try a unique keyword name.');
         } else {
-            // SAVE TO USER'S CREATION COOKIE STACK (LOCAL STORAGE)
-            let userLinks = JSON.parse(localStorage.getItem('my_created_slugs') || '[]');
-            userLinks.push(slug);
-            localStorage.setItem('my_created_slugs', JSON.stringify(userLinks));
-
             const deployedURL = window.location.origin + '/unlock.html?s=' + slug;
             document.getElementById('resultBox').style.display = 'block';
             document.getElementById('finalLink').value = deployedURL;
@@ -429,49 +440,8 @@
             renderStack();
             document.getElementById('lockedUrl').value = '';
             document.getElementById('customSlug').value = '';
-            fetchLinksHistory();
         }
     }
-
-    // PRIVACY FILTER: FETCH ONLY CURRENT USER SLUGS FROM SUPABASE
-    async function fetchLinksHistory() {
-        const userLinks = JSON.parse(localStorage.getItem('my_created_slugs') || '[]');
-        const historyContainer = document.getElementById('historyContainer');
-        
-        if(userLinks.length === 0) {
-            historyContainer.innerHTML = `<p style="text-align:center; color:var(--muted); font-size:13px; padding:10px;">You haven't created any links on this device yet.</p>`;
-            return;
-        }
-
-        // Fetch matching items from Supabase that belong to this local array filter
-        const { data, error } = await sb.from('links').select('*').in('slug', userLinks).order('created_at', { ascending: false });
-        if(error) return;
-        
-        historyContainer.innerHTML = '';
-        
-        if(!data || data.length === 0) {
-            historyContainer.innerHTML = `<p style="text-align:center; color:var(--muted); font-size:13px; padding:10px;">No links created yet.</p>`;
-            return;
-        }
-
-        data.forEach(row => {
-            const fullPath = window.location.origin + '/unlock.html?s=' + row.slug;
-            const stepData = JSON.parse(row.channels || '[]');
-            
-            historyContainer.innerHTML += `
-                <div class="history-item">
-                    <div class="history-info">
-                        <a href="${fullPath}" target="_blank" class="history-slug">/${row.slug}</a>
-                        <div class="history-url">Target: ${row.locked_url}</div>
-                        <div style="font-size:11px; color:var(--muted); margin-top:2px;">⚡ ${stepData.length} Verification Steps Linked</div>
-                    </div>
-                    <span class="copy-badge" onclick="navigator.clipboard.writeText('${fullPath}'); alert('Copied to clipboard!')">Copy</span>
-                </div>
-            `;
-        });
-    }
-
-    fetchLinksHistory();
 </script>
 </body>
 </html>
