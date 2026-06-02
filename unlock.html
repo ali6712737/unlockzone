@@ -3,196 +3,130 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>UnlockZone — Subscribe to Unlock</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<title>UnlockZone — Safe Verification Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0a0f;
-  --surface:#111118;
-  --surface2:#1a1a24;
-  --border:#2a2a38;
-  --accent:#00e5a0;
-  --accent2:#7c3aed;
-  --text:#f0f0f8;
-  --muted:#6b6b85;
-  --red:#ff4757;
-  --yt:#FF0000;
+  --bg:#f4f7fc;
+  --surface:#ffffff;
+  --text:#1e293b;
+  --muted:#64748b;
+  --accent:#6366f1;
+  --border:#e2e8f0;
+  --success:#22c55e;
 }
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem}
 
-body::before{
-  content:'';position:fixed;inset:0;
-  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(124,58,237,0.12),transparent),
-             radial-gradient(ellipse 50% 40% at 90% 90%,rgba(0,229,160,0.07),transparent);
-  pointer-events:none;z-index:0
-}
+.wrap{width:100%;max-width:480px;position:relative}
 
-.wrap{width:100%;max-width:460px;position:relative;z-index:1}
-
-/* LOGO */
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;text-align:center;margin-bottom:2rem;color:var(--muted)}
+/* LOGO -> RE-ROUTE HOME LINK */
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;text-align:center;margin-bottom:1.5rem;cursor:pointer;text-decoration:none;display:block;color:#1e3a8a}
 .logo span{color:var(--accent)}
 
-/* LOCK CARD */
-.lock-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:2rem;text-align:center;margin-bottom:1.25rem}
-.lock-icon{font-size:48px;margin-bottom:1rem;display:block;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.lock-card h1{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:0.5rem}
-.lock-card p{font-size:14px;color:var(--muted);line-height:1.6}
+/* CAPTURE_3 THEMED STRUCTURAL CONTAINER */
+.main-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:2.5rem;box-shadow:0 10px 25px -5px rgba(0,0,0,0.05);text-align:center}
+h1{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#1e3a8a;margin-bottom:6px}
+.subtitle-pill{background:#e0e7ff;color:#4338ca;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;display:inline-block;margin-bottom:2rem}
 
-/* CHANNELS */
-.channels-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1.25rem}
-.section-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:6px}
-.section-label::before{content:'';width:3px;height:11px;background:var(--yt);border-radius:2px}
+/* ACTION BUTTONS LAYOUT */
+.action-stack{display:flex;flex-direction:column;gap:12px;margin-bottom:1.5rem}
+.step-btn{width:100%;padding:14px 20px;border:none;border-radius:14px;color:#fff;font-family:'DM Sans',sans-serif;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:between;transition:all 0.3s;position:relative}
+.step-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.step-title{display:flex;align-items:center;gap:12px}
+.step-arrow{font-size:16px}
 
-.ch-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;transition:border-color 0.3s}
-.ch-item.subscribed{border-color:rgba(0,229,160,0.4)}
-.ch-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),#a855f7);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:#fff;flex-shrink:0}
-.ch-info{flex:1;text-align:left}
-.ch-name{font-size:14px;font-weight:500;color:var(--text)}
-.ch-status{font-size:12px;color:var(--muted);margin-top:2px}
-.ch-item.subscribed .ch-status{color:var(--accent)}
+/* PSYCHOLOGICAL TRAP PROCESSING ELEMENT */
+.verifying{background:#334155 !important;cursor:not-allowed}
+.success-done{background:var(--success) !important;cursor:default;pointer-events:none}
 
-.sub-btn{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:all 0.2s;white-space:nowrap;flex-shrink:0}
-.sub-btn.pending{background:var(--yt);border:none;color:#fff}
-.sub-btn.pending:hover{background:#cc0000;transform:scale(1.05)}
-.sub-btn.done{background:rgba(0,229,160,0.15);border:1px solid rgba(0,229,160,0.3);color:var(--accent);cursor:default}
-
-/* TIMER CARD */
-.timer-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;text-align:center;display:none}
-.timer-card.visible{display:block}
-.timer-label{font-size:13px;color:var(--muted);margin-bottom:1.5rem}
-
-.circle-wrap{position:relative;width:120px;height:120px;margin:0 auto 1.25rem}
-svg.ring{width:120px;height:120px}
-.ring-bg{fill:none;stroke:var(--surface2);stroke-width:8}
-.ring-fg{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:339.3;transform:rotate(-90deg);transform-origin:60px 60px;transition:stroke-dashoffset 0.95s linear}
-.ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--text)}
-
-.timer-msg{font-size:14px;color:var(--muted)}
-
-/* UNLOCKED */
-.unlocked-card{background:var(--surface);border:1px solid rgba(0,229,160,0.3);border-radius:20px;padding:2rem;text-align:center;display:none}
-.unlocked-card.visible{display:block}
-.unlocked-icon{font-size:52px;margin-bottom:1rem;display:block;animation:pop 0.5s cubic-bezier(0.68,-0.55,0.27,1.55)}
-@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
-.unlocked-card h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent);margin-bottom:0.5rem}
-.unlocked-card p{font-size:14px;color:var(--muted);margin-bottom:1.25rem}
-.unlock-btn{display:block;width:100%;padding:14px;background:var(--accent);color:#0a0a0f;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;text-decoration:none;transition:all 0.2s}
-.unlock-btn:hover{background:#00ffb3;transform:translateY(-1px)}
-
-/* AD SPACE */
-.ad-box{background:var(--surface2);border:1px dashed var(--border);border-radius:12px;padding:1rem;text-align:center;margin-top:1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
-.ad-box span{font-size:10px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;display:block}
-
-/* LOADING */
-.loading{text-align:center;padding:3rem}
-.loading p{color:var(--muted);font-size:14px;margin-top:1rem}
-.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto}
+.spinner-mini {
+  width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);
+  border-top-color:#fff;border-radius:50%;
+  animation:spin 0.6s linear infinite;display:none
+}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ERROR */
-.error-card{background:var(--surface);border:1px solid rgba(255,71,87,0.3);border-radius:20px;padding:2rem;text-align:center}
-.error-card h2{font-family:'Syne',sans-serif;font-size:18px;color:var(--red);margin-bottom:0.5rem}
-.error-card p{font-size:14px;color:var(--muted)}
+/* COUNTER TRACKER TEXT */
+.counter-status{font-size:13px;color:var(--muted);margin-bottom:1.5rem;font-weight:500}
+
+/* MASTER GET LINK ACTION BUTTON */
+.master-unlock-btn{
+  display:flex;align-items:center;justify-content:between;width:100%;padding:16px;
+  background:linear-gradient(135deg,#a855f7,#6366f1);color:#fff;border:none;border-radius:14px;
+  font-size:16px;font-weight:700;font-family:'Syne',sans-serif;text-decoration:none;
+  opacity:0.5;pointer-events:none;transition:all 0.3s;box-shadow:0 4px 15px rgba(99,102,241,0.2)
+}
+.master-unlock-btn.active{opacity:1;pointer-events:auto;cursor:pointer}
+
+/* AD CONTAINER */
+.ad-box{background:#f8fafc;border:1px dashed var(--border);border-radius:12px;padding:1rem;text-align:center;margin-top:1.25rem;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.ad-box span{font-size:10px;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+
+/* FULL OVERLAY SCREEN LOADING */
+.loading{text-align:center;padding:4rem}
+.spinner-main{width:42px;height:42px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1rem}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="logo">Unlock<span>Zone</span></div>
 
-  <!-- LOADING STATE -->
+<div class="wrap">
+  <!-- CHANGE 1: CLICK LOGO REDIRECTS TO HOMEPAGE INDEX.HTML -->
+  <a href="index.html" class="logo">Unlock<span>Zone</span></a>
+
+  <!-- SCREEN LEVEL LOADING -->
   <div class="loading" id="loadingDiv">
-    <div class="spinner"></div>
-    <p>Loading your link...</p>
+    <div class="spinner-main"></div>
+    <p style="color:var(--muted); font-size:14px">Validating incoming requests...</p>
   </div>
 
-  <!-- MAIN CONTENT (hidden until loaded) -->
+  <!-- TARGET MODULES INTERFACE -->
   <div id="mainContent" style="display:none">
 
-    <!-- LOCK CARD -->
-    <div class="lock-card" id="lockCard">
-      <span class="lock-icon">🔒</span>
-      <h1>Content is Locked!</h1>
-      <p>To unlock this content, please subscribe to the channels below. The link will unlock automatically once completed.</p>
-    </div>
-
-    <!-- 🚨 TOP AD BOX: 468x60 Slim Banner Integrated -->
-    <div class="ad-box" style="min-height: 95px;">
+    <!-- 🚨 AD PLACEMENT TOP -->
+    <div class="ad-box" style="min-height:95px">
       <span>Sponsored Content</span>
       <script>
-        atOptions = {
-          'key' : 'b9ebecd0cfa2dc32d533ff77ece0ce73',
-          'format' : 'iframe',
-          'height' : 60,
-          'width' : 468,
-          'params' : {}
-        };
+        atOptions = {'key':'b9ebecd0cfa2dc32d533ff77ece0ce73','format':'iframe','height':60,'width':468,'params':{}};
       </script>
       <script src="https://www.highperformanceformat.com/b9ebecd0cfa2dc32d533ff77ece0ce73/invoke.js"></script>
     </div>
-    <div style="margin-bottom:1rem"></div>
+    <div style="margin-bottom:1.25rem"></div>
 
-    <!-- CHANNELS -->
-    <div class="channels-card" id="channelsCard">
-      <div class="section-label">Subscribe to Unlock</div>
-      <div id="channelsList"></div>
+    <!-- CENTRAL WORKSPACE -->
+    <div class="main-card">
+      <h1>Complete Steps to Unlock</h1>
+      <div class="subtitle-pill">Complete the steps below</div>
+
+      <!-- MAIN TARGET ACTION STACK -->
+      <div class="action-stack" id="actionStackContainer"></div>
+
+      <div class="counter-status" id="counterLabel">Steps Completed 0/0</div>
+
+      <!-- MASTER ACTIVE ACCESS TRIGGER -->
+      <a id="masterUnlockBtn" href="#" class="master-unlock-btn">
+        <span style="display:flex;align-items:center;gap:10px">🔗 Get Your Link</span>
+        <span class="step-arrow">&rarr;</span>
+      </a>
     </div>
 
-    <!-- TIMER -->
-    <div class="timer-card" id="timerCard">
-      <p class="timer-label">✅ Subscribed! Please wait a moment...</p>
-      <div class="circle-wrap">
-        <svg class="ring" viewBox="0 0 120 120">
-          <circle class="ring-bg" cx="60" cy="60" r="54"/>
-          <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="54"/>
-        </svg>
-        <div class="ring-num" id="ringNum">20</div>
-      </div>
-      <p class="timer-msg">Unlocking your content shortly...</p>
-    </div>
-
-    <!-- UNLOCKED -->
-    <div class="unlocked-card" id="unlockedCard">
-      <span class="unlocked-icon">🎉</span>
-      <h2>Successfully Unlocked!</h2>
-      <p>Thank you for subscribing! Your content is ready to access.</p>
-      <a id="unlockBtn" href="#" class="unlock-btn" target="_blank">🚀 Access Your Content</a>
-    </div>
-
-    <!-- 🚨 MIDDLE AD BOX: Native Banner Integrated -->
-    <div class="ad-box" style="min-height: 110px;">
+    <!-- 🚨 AD PLACEMENT MIDDLE (NATIVE) -->
+    <div class="ad-box" style="min-height:110px">
       <span>Recommended For You</span>
       <script async="async" data-cfasync="false" src="https://pl29616322.effectivecpmnetwork.com/82fd950482e132a6440fa72c346dde0e/invoke.js"></script>
       <div id="container-82fd950482e132a6440fa72c346dde0e"></div>
     </div>
 
-    <!-- 🚨 BOTTOM AD BOX: 300x250 Large Square Banner Integrated -->
-    <div class="ad-box" style="margin-top:1rem; min-height: 285px;">
-      <span>Trending Ads</span>
+    <!-- 🚨 AD PLACEMENT BOTTOM (SQUARE) -->
+    <div class="ad-box" style="min-height:285px">
+      <span>Trending Advertisements</span>
       <script>
-        atOptions = {
-          'key' : 'c61743c1f6fa7a540811d540250bfc90',
-          'format' : 'iframe',
-          'height' : 250,
-          'width' : 300,
-          'params' : {}
-        };
+        atOptions = {'key':'c61743c1f6fa7a540811d540250bfc90','format':'iframe','height':250,'width':300,'params':{}};
       </script>
       <script src="https://www.highperformanceformat.com/c61743c1f6fa7a540811d540250bfc90/invoke.js"></script>
     </div>
 
   </div>
-
-  <!-- ERROR STATE -->
-  <div id="errorDiv" style="display:none">
-    <div class="error-card">
-      <h2>❌ Invalid Link</h2>
-      <p>This link has either expired or is incorrect. Please request a valid link from the content creator.</p>
-    </div>
-  </div>
-
 </div>
 
 <script src="config.js"></script>
@@ -200,96 +134,77 @@ svg.ring{width:120px;height:120px}
 <script>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let lockedUrl = '';
-let channels = [];
-let subsLeft = 0;
-let timerRunning = false;
+let totalSteps = 0;
+let stepsDone = 0;
 
 async function init(){
   const params = new URLSearchParams(location.search);
   const slug = params.get('s');
-  if(!slug){ showError(); return; }
+  if(!slug) return;
 
   const { data, error } = await sb.from('links').select('*').eq('slug', slug).single();
-  if(error || !data){ showError(); return; }
+  if(error || !data) return;
 
   lockedUrl = data.locked_url;
-  channels = JSON.parse(data.channels);
-  subsLeft = channels.length;
+  const actionsList = JSON.parse(data.channels);
+  totalSteps = actionsList.length;
 
-  buildChannels();
+  buildInterface(actionsList);
   document.getElementById('loadingDiv').style.display = 'none';
   document.getElementById('mainContent').style.display = 'block';
 }
 
-function buildChannels(){
-  const list = document.getElementById('channelsList');
-  list.innerHTML = '';
-  channels.forEach((ch, i) => {
-    const initials = ch.name.substring(0,2).toUpperCase();
-    const colors = ['#7c3aed','#0f6e56','#993556','#185fa5'];
-    const div = document.createElement('div');
-    div.className = 'ch-item';
-    div.id = `ch-item-${i}`;
-    div.innerHTML = `
-      <div class="ch-avatar" style="background:${colors[i%colors.length]}">${initials}</div>
-      <div class="ch-info">
-        <div class="ch-name">${ch.name}</div>
-        <div class="ch-status" id="ch-status-${i}">Subscribe to unlock this link</div>
-      </div>
-      <button class="sub-btn pending" id="sub-btn-${i}" onclick="doSubscribe(${i})">Subscribe</button>
+function buildInterface(list){
+  const container = document.getElementById('actionStackContainer');
+  container.innerHTML = '';
+  document.getElementById('counterLabel').textContent = `Steps Completed 0/${totalSteps}`;
+
+  list.forEach((item, i) => {
+    container.innerHTML += `
+      <button class="step-btn" id="step-btn-${i}" style="background:${item.color}" onclick="triggerAction(${i}, '${item.url}')">
+        <span class="step-title" id="title-box-${i}">
+          <span>${item.icon}</span>
+          <span>${item.name}</span>
+        </span>
+        <div class="spinner-mini" id="loader-${i}"></div>
+        <span class="step-arrow" id="arrow-${i}">&rarr;</span>
+      </button>
     `;
-    list.appendChild(div);
   });
 }
 
-function doSubscribe(i){
-  const btn = document.getElementById(`sub-btn-${i}`);
-  const status = document.getElementById(`ch-status-${i}`);
-  const item = document.getElementById(`ch-item-${i}`);
+function triggerAction(index, url){
+  const btn = document.getElementById(`step-btn-${index}`);
+  const loader = document.getElementById(`loader-${index}`);
+  const arrow = document.getElementById(`arrow-${index}`);
+  const titleBox = document.getElementById(`title-box-${index}`);
 
-  window.open(channels[i].url, '_blank');
+  window.open(url, '_blank');
 
-  btn.textContent = '✓ Done';
-  btn.className = 'sub-btn done';
-  status.textContent = '✅ Subscribed!';
-  item.classList.add('subscribed');
+  // CHANGE 3 & 4: COUNTER TEXT IS CONCEALED, RADIAL LOADER SPINNING WITH PSYCHOLOGICAL STATEMENT
+  btn.classList.add('verifying');
+  arrow.style.display = 'none';
+  loader.style.display = 'block';
+  titleBox.innerHTML = `<span>⏳</span> <span>We are verifying...</span>`;
 
-  subsLeft--;
-  if(subsLeft <= 0) startTimer();
-}
+  setTimeout(() => {
+    // 20 SECONDS PROCESSING SIMULATION COMPLETE -> SWITCH STYLING PERMANENTLY TO GREEN
+    btn.classList.remove('verifying');
+    btn.classList.add('success-done');
+    loader.style.display = 'none';
+    arrow.style.display = 'block';
+    arrow.innerHTML = '✓';
+    titleBox.innerHTML = `<span>✅</span> <span>Step Verified</span>`;
 
-function startTimer(){
-  const timerCard = document.getElementById('timerCard');
-  const channelsCard = document.getElementById('channelsCard');
-  channelsCard.style.display = 'none';
-  timerCard.classList.add('visible');
+    stepsDone++;
+    document.getElementById('counterLabel').textContent = `Steps Completed ${stepsDone}/${totalSteps}`;
 
-  let t = 20;
-  const ring = document.getElementById('ringFg');
-  const num = document.getElementById('ringNum');
-  const total = 339.3;
-
-  const interval = setInterval(()=>{
-    t--;
-    num.textContent = t;
-    ring.style.strokeDashoffset = total - (total * ((20-t)/20));
-    if(t <= 0){
-      clearInterval(interval);
-      showUnlocked();
+    if(stepsDone >= totalSteps){
+      const masterBtn = document.getElementById('masterUnlockBtn');
+      masterBtn.classList.add('active');
+      masterBtn.href = lockedUrl;
     }
-  }, 1000);
-}
-
-function showUnlocked(){
-  document.getElementById('timerCard').classList.remove('visible');
-  const card = document.getElementById('unlockedCard');
-  card.classList.add('visible');
-  document.getElementById('unlockBtn').href = lockedUrl;
-}
-
-function showError(){
-  document.getElementById('loadingDiv').style.display = 'none';
-  document.getElementById('errorDiv').style.display = 'block';
+  }, 20000); // 20 Seconds Real Verification Window
 }
 
 init();
