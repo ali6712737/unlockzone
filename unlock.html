@@ -82,7 +82,7 @@ svg.ring{width:120px;height:120px}
 .unlock-btn{display:block;width:100%;padding:14px;background:var(--accent);color:#0a0a0f;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;text-decoration:none;transition:all 0.2s}
 .unlock-btn:hover{background:#00ffb3;transform:translateY(-1px)}
 
-/* AD SPACE CUSTOM STYLING */
+/* AD SPACE */
 .ad-box{background:var(--surface2);border:1px dashed var(--border);border-radius:12px;padding:1rem;text-align:center;margin-top:1rem;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
 .ad-box span{font-size:10px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;display:block}
 
@@ -105,7 +105,7 @@ svg.ring{width:120px;height:120px}
   <!-- LOADING STATE -->
   <div class="loading" id="loadingDiv">
     <div class="spinner"></div>
-    <p>Link load ho rahi hai...</p>
+    <p>Loading your link...</p>
   </div>
 
   <!-- MAIN CONTENT (hidden until loaded) -->
@@ -114,8 +114,8 @@ svg.ring{width:120px;height:120px}
     <!-- LOCK CARD -->
     <div class="lock-card" id="lockCard">
       <span class="lock-icon">🔒</span>
-      <h1>Content Locked Hai!</h1>
-      <p>Yeh content unlock karne ke liye neeche diye channels ko subscribe karo. Subscribe karne ke baad automatic unlock ho jayega.</p>
+      <h1>Content is Locked!</h1>
+      <p>To unlock this content, please subscribe to the channels below. The link will unlock automatically once completed.</p>
     </div>
 
     <!-- 🚨 TOP AD BOX: 468x60 Slim Banner Integrated -->
@@ -136,13 +136,13 @@ svg.ring{width:120px;height:120px}
 
     <!-- CHANNELS -->
     <div class="channels-card" id="channelsCard">
-      <div class="section-label">Subscribe Karo</div>
+      <div class="section-label">Subscribe to Unlock</div>
       <div id="channelsList"></div>
     </div>
 
     <!-- TIMER -->
     <div class="timer-card" id="timerCard">
-      <p class="timer-label">✅ Subscribe ho gaya! Thoda wait karo...</p>
+      <p class="timer-label">✅ Subscribed! Please wait a moment...</p>
       <div class="circle-wrap">
         <svg class="ring" viewBox="0 0 120 120">
           <circle class="ring-bg" cx="60" cy="60" r="54"/>
@@ -150,15 +150,15 @@ svg.ring{width:120px;height:120px}
         </svg>
         <div class="ring-num" id="ringNum">20</div>
       </div>
-      <p class="timer-msg">Content unlock hone wala hai...</p>
+      <p class="timer-msg">Unlocking your content shortly...</p>
     </div>
 
     <!-- UNLOCKED -->
     <div class="unlocked-card" id="unlockedCard">
       <span class="unlocked-icon">🎉</span>
-      <h2>Unlock Ho Gaya!</h2>
-      <p>Shukriya subscribe karne ka! Ab tera content ready hai.</p>
-      <a id="unlockBtn" href="#" class="unlock-btn" target="_blank">🚀 Content Access Karo</a>
+      <h2>Successfully Unlocked!</h2>
+      <p>Thank you for subscribing! Your content is ready to access.</p>
+      <a id="unlockBtn" href="#" class="unlock-btn" target="_blank">🚀 Access Your Content</a>
     </div>
 
     <!-- 🚨 MIDDLE AD BOX: Native Banner Integrated -->
@@ -188,8 +188,8 @@ svg.ring{width:120px;height:120px}
   <!-- ERROR STATE -->
   <div id="errorDiv" style="display:none">
     <div class="error-card">
-      <h2>❌ Link Invalid Hai</h2>
-      <p>Yeh link expire ho gayi ya galat hai. Content creator se dobara link maango.</p>
+      <h2>❌ Invalid Link</h2>
+      <p>This link has either expired or is incorrect. Please request a valid link from the content creator.</p>
     </div>
   </div>
 
@@ -234,7 +234,7 @@ function buildChannels(){
       <div class="ch-avatar" style="background:${colors[i%colors.length]}">${initials}</div>
       <div class="ch-info">
         <div class="ch-name">${ch.name}</div>
-        <div class="ch-status" id="ch-status-${i}">Subscribe karo unlock karne ke liye</div>
+        <div class="ch-status" id="ch-status-${i}">Subscribe to unlock this link</div>
       </div>
       <button class="sub-btn pending" id="sub-btn-${i}" onclick="doSubscribe(${i})">Subscribe</button>
     `;
