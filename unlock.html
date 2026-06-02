@@ -25,17 +25,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 1.5rem;
+            padding: 1rem;
         }
-        .wrap { width: 100%; max-width: 480px; position: relative; }
+        .wrap { width: 100%; max-width: 450px; margin: 0 auto; }
 
-        /* CHANGE 1: BACK TO HOME REDIRECT LINK SYSTEM */
         .logo {
             font-family: 'Syne', sans-serif;
             font-weight: 800;
             font-size: 24px;
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             cursor: pointer;
             text-decoration: none;
             display: block;
@@ -43,97 +42,114 @@
         }
         .logo span { color: var(--accent); }
 
-        /* MAIN APP LAYER CARD FROM THEMED capture_3 */
+        /* RESPONSIVE MAIN CARD MODULE */
         .main-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 2.5rem;
+            border-radius: 20px;
+            padding: 1.5rem;
             box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
             text-align: center;
+            width: 100%;
         }
-        h1 { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: #1e3a8a; margin-bottom: 6px; }
+        @media(min-width: 480px) {
+            .main-card { padding: 2.5rem; border-radius: 24px; }
+        }
+        h1 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; color: #1e3a8a; margin-bottom: 6px; }
+        @media(min-width: 480px) { h1 { font-size: 24px; } }
+        
         .subtitle-pill {
             background: #e0e7ff;
             color: #4338ca;
-            padding: 6px 16px;
+            padding: 6px 14px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
             display: inline-block;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
-        /* ACTIONS STACK MODULES SETUP */
-        .action-stack { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem; }
+        .action-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.25rem; }
+        
+        /* RESPONSIVE BUTTON WRAPPING */
         .step-btn {
             width: 100%;
-            padding: 15px 20px;
+            padding: 14px 16px;
             border: none;
-            border-radius: 14px;
+            border-radius: 12px;
             color: #fff;
             font-family: 'DM Sans', sans-serif;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: space-between;
             transition: all 0.3s;
+            gap: 10px;
         }
         .step-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .step-title { display: flex; align-items: center; gap: 12px; }
-        .step-arrow { font-size: 16px; }
+        .step-title { display: flex; align-items: center; gap: 10px; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .step-arrow { font-size: 14px; flex-shrink: 0; }
 
-        /* VERIFICATION TRAP SYSTEM ENGINE CLASSES */
         .verifying { background: #334155 !important; cursor: not-allowed; }
         .success-done { background: var(--success) !important; cursor: default; pointer-events: none; }
         
         .spinner-mini {
-            width: 18px; height: 18px;
+            width: 16px; height: 16px;
             border: 2px solid rgba(255,255,255,0.3);
             border-top-color: #fff; border-radius: 50%;
-            animation: spin 0.6s linear infinite; display: none;
+            animation: spin 0.6s linear infinite; display: none; flex-shrink: 0;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        .counter-status { font-size: 13px; color: var(--muted); margin-bottom: 1.5rem; font-weight: 700; }
+        .counter-status { font-size: 12px; color: var(--muted); margin-bottom: 1.25rem; font-weight: 700; }
 
-        /* MASTER REDIRECT TRIGGER BUTTON */
         .master-unlock-btn {
-            display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 16px;
-            background: linear-gradient(135deg, #a855f7, #6366f1); color: #fff; border: none; border-radius: 14px;
-            font-size: 16px; font-weight: 700; font-family: 'Syne', sans-serif; text-decoration: none;
+            display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 15px;
+            background: linear-gradient(135deg, #a855f7, #6366f1); color: #fff; border: none; border-radius: 12px;
+            font-size: 15px; font-weight: 700; font-family: 'Syne', sans-serif; text-decoration: none;
             opacity: 0.4; pointer-events: none; transition: all 0.3s; box-shadow: 0 4px 15px rgba(99,102,241,0.2);
         }
         .master-unlock-btn.active { opacity: 1; pointer-events: auto; cursor: pointer; }
 
-        /* HIGH-PERFORMANCE STATIC AD CONTAINER SPACES */
-        .ad-box { background: #f8fafc; border: 1px dashed var(--border); border-radius: 12px; padding: 1rem; text-align: center; margin-top: 1.25rem; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
-        .ad-box span { font-size: 10px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        /* RESPONSIVE AD SYSTEM CONTAINER OVERRIDES */
+        .ad-box { 
+            background: #f8fafc; 
+            border: 1px dashed var(--border); 
+            border-radius: 12px; 
+            padding: 0.75rem; 
+            text-align: center; 
+            margin-top: 1rem; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            overflow: hidden;
+            width: 100%;
+        }
+        .ad-box span { font-size: 9px; color: var(--muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .ad-box iframe, .ad-box div { max-width: 100% !important; height: auto; }
 
-        .loading { text-align: center; padding: 4rem; }
-        .spinner-main { width: 40px; height: 40px; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+        .loading { text-align: center; padding: 3rem 1rem; }
+        .spinner-main { width: 36px; height: 36px; border: 4px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
     </style>
 </head>
 <body>
 
 <div class="wrap">
-    <!-- MASTER REDIRECT NAVIGATION LINK -->
     <a href="index.html" class="logo">Unlock<span>Zone</span></a>
 
-    <!-- SCREEN LOADER CONTROLLER -->
     <div class="loading" id="loadingDiv">
         <div class="spinner-main"></div>
-        <p style="color:var(--muted); font-size:14px; font-weight:500;">Establishing secure connection stream...</p>
+        <p style="color:var(--muted); font-size:13px; font-weight:500;">Establishing secure connection stream...</p>
     </div>
 
-    <!-- MAIN PLATFORM COMPONENT CONTAINER -->
     <div id="mainContent" style="display: none;">
 
-        <!-- AD ADSTERRA SLOT 1: TOP 468x60 -->
+        <!-- AD SLOT 1: TOP -->
         <div class="ad-box" style="min-height: 95px;">
             <span>Sponsored Advertisement</span>
             <script>
@@ -141,33 +157,31 @@
             </script>
             <script src="https://www.highperformanceformat.com/b9ebecd0cfa2dc32d533ff77ece0ce73/invoke.js"></script>
         </div>
-        <div style="margin-bottom: 1.25rem;"></div>
+        <div style="margin-bottom: 1rem;"></div>
 
-        <!-- MIDDLE ACTIVE CONTAINER CARD VIEW -->
+        <!-- MIDDLE CARD LAYOUT -->
         <div class="main-card">
             <h1>Complete Steps to Unlock</h1>
             <div class="subtitle-pill">Complete the steps below</div>
 
-            <!-- DYNAMIC TARGET BUTTONS CONSOLE -->
             <div class="action-stack" id="actionStackContainer"></div>
 
             <div class="counter-status" id="counterLabel">Steps Completed 0/0</div>
 
-            <!-- ACTION REDIRECT ACCESS LINK -->
             <a id="masterUnlockBtn" href="#" class="master-unlock-btn">
-                <span style="display: flex; align-items: center; gap: 10px;">🔗 Get Your Link</span>
+                <span style="display: flex; align-items: center; gap: 8px;">🔗 Get Your Link</span>
                 <span class="step-arrow">&rarr;</span>
             </a>
         </div>
 
-        <!-- AD ADSTERRA SLOT 2: NATIVE BANNER -->
+        <!-- AD SLOT 2: NATIVE -->
         <div class="ad-box" style="min-height: 110px;">
             <span>Recommended Content For You</span>
             <script async="async" data-cfasync="false" src="https://pl29616322.effectivecpmnetwork.com/82fd950482e132a6440fa72c346dde0e/invoke.js"></script>
             <div id="container-82fd950482e132a6440fa72c346dde0e"></div>
         </div>
 
-        <!-- AD ADSTERRA SLOT 3: SQUARE 300x250 -->
+        <!-- AD SLOT 3: SQUARE -->
         <div class="ad-box" style="min-height: 285px;">
             <span>Trending Advertisements</span>
             <script>
@@ -231,13 +245,11 @@
 
         window.open(redirectionUrl, '_blank');
 
-        // ENGAGE INTERNAL VERIFICATION PSYCHOLOGICAL STATE TRAP
         buttonNode.classList.add('verifying');
         interactiveArrow.style.display = 'none';
         spinningLoader.style.display = 'block';
         wordingBox.innerHTML = `<span>⏳</span> <span>We are verifying...</span>`;
 
-        // 20 SECONDS PROCESSING TIMER WINDOW HOOKUP
         setTimeout(() => {
             buttonNode.classList.remove('verifying');
             buttonNode.classList.add('success-done');
@@ -249,7 +261,6 @@
             stepsDone++;
             document.getElementById('counterLabel').textContent = `Steps Completed ${stepsDone}/${totalSteps}`;
 
-            // UNLOCK FINAL LINK EXCLUSIVELY WHEN ALL USER REQUIREMENTS MATCH
             if(stepsDone >= totalSteps) {
                 const triggerMasterElement = document.getElementById('masterUnlockBtn');
                 triggerMasterElement.classList.add('active');
