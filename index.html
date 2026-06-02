@@ -70,7 +70,7 @@
         }
 
         @media(min-width: 900px) {
-            .grid { grid-template-columns: 420px 1fr; gap: 1.5rem; }
+            .grid { grid-template-columns: 500px 1fr; gap: 1.5rem; }
         }
 
         .card {
@@ -156,28 +156,71 @@
 
         .add-action-btn:hover { background: rgba(0,229,160,0.05); }
 
-        .action-list { margin-bottom: 1.25rem; }
+        /* MODERN INLINE SOCIAL INPUT FIELDS (MATCHING IMAGE 2) */
+        .action-list { 
+            margin-bottom: 1.25rem; 
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
         
-        .action-item {
+        .action-input-container {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            background: var(--surface2);
-            padding: 10px 12px;
-            border-radius: 10px;
-            margin-bottom: 8px;
-            border: 1px solid var(--border);
-            gap: 8px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 6px 10px;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
-        .action-item span { 
-            font-size: 13px; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; 
+        .action-input-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .remove-btn { color: #ff4757; background: none; border: none; cursor: pointer; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+        .action-input-field {
+            flex-grow: 1;
+            background: transparent !important;
+            border: none !important;
+            color: #111118 !important;
+            font-size: 14px !important;
+            padding: 8px 4px !important;
+            margin-bottom: 0 !important;
+        }
+
+        .action-input-field::placeholder {
+            color: #888899;
+        }
+
+        .action-input-field:focus {
+            outline: none !important;
+            border: none !important;
+        }
+
+        .action-delete-badge {
+            background: #ffebeb;
+            color: #ff4757;
+            border: none;
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .action-delete-badge:hover {
+            background: #ffcbd1;
+        }
 
         /* FEATURES AND BENEFITS LAYOUT SECTION */
         .features-container {
@@ -221,32 +264,31 @@
             line-height: 1.5;
         }
 
-        /* MODAL RESPONSIVE PANEL */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 100; padding: 10px; }
+        /* MODAL PANEL ADJUSTED TO DARK STYLISH DROPDOWN OVERLAY */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 100; padding: 12px; }
         .modal.open { display: flex; }
         
         .modal-content { 
             background: #ffffff; 
             color: #111; 
-            border-radius: 16px; 
-            padding: 1rem; 
+            border-radius: 20px; 
+            padding: 1.5rem; 
             width: 100%; 
             max-width: 550px; 
-            max-height: 85vh; 
+            max-height: 80vh; 
             overflow-y: auto; 
             position: relative; 
         }
 
-        @media(min-width: 768px) { .modal-content { padding: 2rem; border-radius: 20px; } }
-        .modal-close { position: absolute; top: 10px; right: 14px; font-size: 26px; cursor: pointer; color: #555; padding: 4px; }
-        .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 1rem; border-bottom: 2px solid #ff4757; padding-bottom: 6px; font-family: 'Syne', sans-serif; }
+        .modal-close { position: absolute; top: 12px; right: 16px; font-size: 22px; cursor: pointer; color: #555; padding: 4px; font-weight: bold; }
+        .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 1.25rem; border-bottom: 2px solid #ff4757; padding-bottom: 6px; font-family: 'Syne', sans-serif; }
         
         .platform-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-        @media(min-width: 440px) { .platform-grid { grid-template-columns: 1fr 1fr; gap: 1rem; } }
+        @media(min-width: 440px) { .platform-grid { grid-template-columns: 1fr 1fr; gap: 1.25rem; } }
         
-        .platform-section h3 { font-size: 13px; margin-bottom: 6px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 4px; }
-        .action-opt { display: flex; align-items: center; gap: 8px; background: #f5f6f8; padding: 10px; border-radius: 8px; margin-bottom: 6px; cursor: pointer; font-size: 12px; font-weight: 600; }
-        .action-opt:hover { background: #e8eaf0; }
+        .platform-section h3 { font-size: 13px; margin-bottom: 8px; color: #111; border-bottom: 1px solid #eee; padding-bottom: 4px; font-weight: bold; }
+        .action-opt { display: flex; align-items: center; gap: 8px; background: #f5f6f8; padding: 12px; border-radius: 10px; margin-bottom: 6px; cursor: pointer; font-size: 13px; font-weight: 600; color: #333; transition: background 0.2s; }
+        .action-opt:hover { background: #e8eaf0; color: #000; }
 
         .ad-container { 
             margin: 1rem auto; 
@@ -270,7 +312,6 @@
         <h1>Unlock<span>Zone</span> Partner Network</h1>
     </header>
 
-    <!-- BANNER TOP AD -->
     <div class="ad-container">
         <script>
             atOptions = {'key':'b9ebecd0cfa2dc32d533ff77ece0ce73','format':'iframe','height':60,'width':468,'params':{}};
@@ -279,7 +320,6 @@
     </div>
 
     <div class="grid">
-        <!-- LEFT: LOCK CREATION PANEL -->
         <div class="card">
             <h2>Create New Lock</h2>
             
@@ -289,8 +329,9 @@
             <label>Custom Link Slash/Slug (Optional)</label>
             <input type="text" id="customSlug" placeholder="fr-legends-mod-v2">
 
-            <label>Lock Steps / Requirements</label>
+            <label>Social Action Buttons *</label>
             <div class="action-list" id="selectedActionsList"></div>
+            
             <button class="add-action-btn" onclick="openModal()">+ Add Action Requirement</button>
 
             <button class="btn" onclick="generateLink()">Generate Smart Lock</button>
@@ -301,7 +342,6 @@
             </div>
         </div>
 
-        <!-- RIGHT: PREMIUM SYSTEM BENEFITS SECTION -->
         <div class="card">
             <h2>Network Features & Benefits</h2>
             <div class="features-container">
@@ -343,7 +383,6 @@
     </div>
 </div>
 
-<!-- ACTIONS MODAL WITH AUTOMA-PRELOAD LOGIC -->
 <div class="modal" id="actionModal">
     <div class="modal-content">
         <span class="modal-close" onclick="closeModal()">&times;</span>
@@ -352,26 +391,29 @@
         <div class="platform-grid">
             <div class="platform-section">
                 <h3>🔴 YouTube</h3>
-                <div class="action-opt" onclick="chooseAction('Subscribe Channel', '#FF0000', '🔴')">Subscribe Channel</div>
-                <div class="action-opt" onclick="chooseAction('Like & Comment on Video', '#FF0000', '👍')">Like & Comment on Video</div>
-                <div class="action-opt" onclick="chooseAction('Share Video', '#FF0000', '📢')">Share Video</div>
+                <div class="action-opt" onclick="addNewActionBox('Subscribe Channel', '#FF0000', '🔴', 'Youtube Channel URL for subscribe')">Subscribe on YouTube</div>
+                <div class="action-opt" onclick="addNewActionBox('Like & Comment on Video', '#FF0000', '👍', 'Youtube Video URL for like & comment')">Like & Comment on Video</div>
+                <div class="action-opt" onclick="addNewActionBox('Post Good Comment', '#FF0000', '💬', 'Youtube Video URL for comment block')">Post Good Comment</div>
+                <div class="action-opt" onclick="addNewActionBox('Share Video', '#FF0000', '📢', 'Youtube Video URL to share')">Share Video</div>
             </div>
             <div class="platform-section">
-                <h3>🔵 Social Platforms</h3>
-                <div class="action-opt" onclick="chooseAction('Follow on Facebook', '#1877F2', '📘')">Follow on Facebook</div>
-                <div class="action-opt" onclick="chooseAction('Like Facebook Post', '#1877F2', '👍')">Like Facebook Post</div>
-                <div class="action-opt" onclick="chooseAction('Join Telegram', '#229ED9', '✈️')">Join Telegram</div>
+                <h3>🔵 Facebook</h3>
+                <div class="action-opt" onclick="addNewActionBox('Follow on Facebook', '#1877F2', '📘', 'Facebook Page/Profile URL')">Follow on Facebook</div>
+                <div class="action-opt" onclick="addNewActionBox('Like Facebook Post', '#1877F2', '👍', 'Facebook Post link target')">Like Facebook Post</div>
             </div>
             <div class="platform-section">
-                <h3>📸 Short Videos Systems</h3>
-                <div class="action-opt" onclick="chooseAction('Follow on Instagram', '#E1306C', '📸')">Follow on Instagram</div>
-                <div class="action-opt" onclick="chooseAction('Like Instagram Post', '#E1306C', '❤️')">Like Instagram Post</div>
-                <div class="action-opt" onclick="chooseAction('Follow on TikTok', '#000000', '🎵')">Follow on TikTok</div>
+                <h3>📸 TikTok & Instagram</h3>
+                <div class="action-opt" onclick="addNewActionBox('Follow on Instagram', '#E1306C', '📸', 'Instagram Profile Link')">Follow on Instagram</div>
+                <div class="action-opt" onclick="addNewActionBox('Like Instagram Post', '#E1306C', '❤️', 'Instagram Post Media URL')">Like Instagram Post</div>
+                <div class="action-opt" onclick="addNewActionBox('Follow on TikTok', '#000000', '🎵', 'TikTok Profile Link')">Follow on TikTok</div>
+                <div class="action-opt" onclick="addNewActionBox('Like TikTok Video', '#000000', '🖤', 'TikTok Video Link')">Like TikTok Video</div>
             </div>
             <div class="platform-section">
-                <h3>👾 Gaming Communities</h3>
-                <div class="action-opt" onclick="chooseAction('Join Discord', '#5865F2', '👾')">Join Discord</div>
-                <div class="action-opt" onclick="chooseAction('Follow on X/Twitter', '#1DA1F2', '🐦')">Follow on X/Twitter</div>
+                <h3>🟢 Others</h3>
+                <div class="action-opt" onclick="addNewActionBox('Join WhatsApp Channel', '#25D366', '🟢', 'WhatsApp Channel or Group Link')">Join WhatsApp Channel</div>
+                <div class="action-opt" onclick="addNewActionBox('Join Telegram', '#229ED9', '✈️', 'Telegram Channel/Group URL')">Join Telegram</div>
+                <div class="action-opt" onclick="addNewActionBox('Join Discord', '#5865F2', '👾', 'Discord Server Invite Link')">Join Discord</div>
+                <div class="action-opt" onclick="addNewActionBox('Follow on X/Twitter', '#1DA1F2', '🐦', 'X/Twitter Profile Link')">Follow on X/Twitter</div>
             </div>
         </div>
     </div>
@@ -386,38 +428,61 @@
     function openModal() { document.getElementById('actionModal').classList.add('open'); }
     function closeModal() { document.getElementById('actionModal').classList.remove('open'); }
 
-    // PERMANENT AUTO-FILL CONTROLLER USING BROWSER LOCAL STORAGE
-    function chooseAction(name, color, icon) {
+    // GENERATES TEXT BOX DIRECTLY ON SCREEN (INLINE) INSIDE THE LIST
+    function addNewActionBox(name, color, icon, placeholderText) {
         closeModal();
         
-        // Auto-fetch already cached system paths matching the unique item key name
+        // Fetch cached memory if exists to fill instantly
         const cachedUrl = localStorage.getItem(`saved_link_${name}`) || '';
         
-        const url = prompt(`Paste complete URL destination link for [${name}]:`, cachedUrl);
-        if(!url) return;
+        const uniqueId = Date.now() + Math.random().toString(36).substring(2, 5);
         
-        // Store permanently into local browser cookies stack layer 
-        localStorage.setItem(`saved_link_${name}`, url);
+        const item = {
+            id: uniqueId,
+            name: name,
+            color: color,
+            icon: icon,
+            placeholder: placeholderText,
+            url: cachedUrl
+        };
         
-        stack.push({ name, color, icon, url });
+        stack.push(item);
         renderStack();
     }
 
+    // Renders custom layout matching image 2 specification
     function renderStack() {
         const container = document.getElementById('selectedActionsList');
         container.innerHTML = '';
+        
         stack.forEach((item, i) => {
             container.innerHTML += `
-                <div class="action-item">
-                    <span>${item.icon} <strong>${item.name}</strong></span>
-                    <button class="remove-btn" onclick="removeStack(${i})">Remove</button>
+                <div class="action-input-container" id="box_${item.id}">
+                    <div class="action-input-icon">${item.icon}</div>
+                    <input type="url" 
+                           class="action-input-field" 
+                           placeholder="${item.placeholder}" 
+                           value="${item.url}" 
+                           oninput="updateLinkValue('${item.id}', this.value)" 
+                           required>
+                    <button type="button" class="action-delete-badge" onclick="removeStackItem('${item.id}')">&times;</button>
                 </div>
             `;
         });
     }
 
-    function removeStack(i) {
-        stack.splice(i, 1);
+    // Updates direct URL value on typing and hooks local cache memory
+    function updateLinkValue(id, value) {
+        const index = stack.findIndex(x => x.id === id);
+        if (index !== -1) {
+            stack[index].url = value;
+            // Instantly sync browser memory cache for that dynamic action block name
+            localStorage.setItem(`saved_link_${stack[index].name}`, value);
+        }
+    }
+
+    function removeStackItem(id) {
+        stack = stack.filter(x => x.id !== id);
         renderStack();
     }
 
@@ -425,10 +490,33 @@
         const dest = document.getElementById('lockedUrl').value;
         let slug = document.getElementById('customSlug').value.trim().replace(/[^a-zA-Z0-9-_]/g, '-');
         
-        if(!dest || stack.length === 0) { alert('Please insert your download link and append at least 1 action requirement.'); return; }
+        if(!dest || stack.length === 0) { 
+            alert('Please insert your download link and append at least 1 action requirement.'); 
+            return; 
+        }
+        
+        // Final verification check to see if any inline box is left empty
+        let hasEmptyFields = false;
+        stack.forEach(item => {
+            if(!item.url.trim()) hasEmptyFields = true;
+        });
+        
+        if(hasEmptyFields) {
+            alert('Please fill out all the generated social connection input boxes.');
+            return;
+        }
+
         if(!slug) { slug = Math.random().toString(36).substring(2, 8); }
 
-        const { error } = await sb.from('links').insert([{ slug: slug, locked_url: dest, channels: JSON.stringify(stack) }]);
+        // Formatting data block back to standard schema for database
+        const processedChannels = stack.map(item => ({
+            name: item.name,
+            color: item.color,
+            icon: item.icon,
+            url: item.url
+        }));
+
+        const { error } = await sb.from('links').insert([{ slug: slug, locked_url: dest, channels: JSON.stringify(processedChannels) }]);
         
         if(error) {
             alert('Slug already exists or DB connection dropped. Try a unique keyword name.');
