@@ -1,0 +1,2 @@
+const SUPABASE_URL = "https://kqywkloadowyorfzxakn.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxeXdrbG9hZG93eW9yZnp4YWtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAzNjA2OTQsImV4cCI6MjA5NTkzNjY5NH0.A3Q2M-TTq2NaIzK6rby6zYujEk_FiPJqb03vx3rLAsw";

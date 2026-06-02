@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>UnlockZone — Create Locked Links</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;
+  --surface:#111118;
+  --surface2:#1a1a24;
+  --border:#2a2a38;
+  --accent:#00e5a0;
+  --accent2:#7c3aed;
+  --text:#f0f0f8;
+  --muted:#6b6b85;
+  --red:#ff4757;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* BG EFFECT */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(124,58,237,0.15),transparent),
+             radial-gradient(ellipse 60% 40% at 80% 80%,rgba(0,229,160,0.08),transparent);
+  pointer-events:none;z-index:0
+}
+
+.container{max-width:680px;margin:0 auto;padding:0 1.5rem;position:relative;z-index:1}
+
+/* HEADER */
+header{padding:2rem 0 0;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.5px}
+.logo span{color:var(--accent)}
+.badge{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.2);color:var(--accent);font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500}
+
+/* HERO */
+.hero{padding:3rem 0 2rem;text-align:center}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,42px);font-weight:800;line-height:1.1;letter-spacing:-1px;margin-bottom:0.75rem}
+.hero h1 em{color:var(--accent);font-style:normal}
+.hero p{color:var(--muted);font-size:15px;max-width:400px;margin:0 auto}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.75rem;margin-bottom:1.25rem;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(124,58,237,0.04),transparent 60%);pointer-events:none}
+.card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+.card-title::before{content:'';width:3px;height:13px;background:var(--accent);border-radius:2px;display:inline-block}
+
+/* STEP BADGE */
+.step{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--accent2);color:#fff;font-size:11px;font-weight:700;flex-shrink:0}
+
+/* INPUTS */
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:500}
+input[type=text]{
+  width:100%;background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;padding:12px 14px;color:var(--text);font-size:14px;
+  font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s
+}
+input[type=text]:focus{border-color:var(--accent)}
+input[type=text]::placeholder{color:var(--muted)}
+
+.channel-row{display:flex;gap:8px;margin-bottom:10px;align-items:center}
+.channel-row input{flex:1}
+.remove-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.2);color:var(--red);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0}
+.remove-btn:hover{background:rgba(255,71,87,0.2)}
+
+.add-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:1px dashed var(--border);color:var(--muted);font-size:13px;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;margin-top:4px}
+.add-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* MAIN BTN */
+.main-btn{
+  width:100%;padding:14px;background:var(--accent);color:#0a0a0f;
+  border:none;border-radius:12px;font-size:15px;font-weight:700;
+  font-family:'Syne',sans-serif;cursor:pointer;letter-spacing:0.5px;
+  transition:all 0.2s;margin-top:1rem
+}
+.main-btn:hover{background:#00ffb3;transform:translateY(-1px)}
+.main-btn:active{transform:translateY(0)}
+.main-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+/* RESULT BOX */
+.result-box{display:none;background:var(--surface2);border:1px solid rgba(0,229,160,0.3);border-radius:14px;padding:1.25rem;margin-top:1.25rem}
+.result-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.result-url{font-size:13px;color:var(--text);word-break:break-all;background:var(--bg);padding:10px 12px;border-radius:8px;border:1px solid var(--border);margin-bottom:10px;font-family:monospace}
+.copy-btn{width:100%;padding:10px;background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);color:var(--accent);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.copy-btn:hover{background:rgba(0,229,160,0.2)}
+.copy-btn.copied{background:rgba(0,229,160,0.2);color:#00ffb3}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--accent);color:#0a0a0f;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:600;transition:transform 0.3s;z-index:999;white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* HOW IT WORKS */
+.how{padding:1rem 0 3rem}
+.how h2{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;text-align:center;margin-bottom:1.5rem;color:var(--muted)}
+.steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;text-align:center}
+.step-icon{font-size:28px;margin-bottom:0.5rem}
+.step-card h3{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:0.25rem}
+.step-card p{font-size:12px;color:var(--muted)}
+
+/* ERROR */
+.err{color:var(--red);font-size:12px;margin-top:6px;display:none}
+
+@media(max-width:480px){.steps-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">Unlock<span>Zone</span></div>
+    <div class="badge">FREE TOOL</div>
+  </header>
+
+  <div class="hero">
+    <h1>Lock Your Links.<br/><em>Grow Your Channel.</em></h1>
+    <p>Visitors subscribe to your YouTube channels before they can access your content.</p>
+  </div>
+
+  <!-- STEP 1: CHANNELS -->
+  <div class="card">
+    <div class="card-title"><span class="step">1</span> Your YouTube Channels</div>
+    <div id="channelList">
+      <div class="channel-row">
+        <div style="flex:1">
+          <label>Channel Name</label>
+          <input type="text" placeholder="e.g. Ali Gaming Mods" class="ch-name"/>
+        </div>
+        <div style="flex:1.5">
+          <label>Channel URL</label>
+          <input type="text" placeholder="https://youtube.com/@yourchannel" class="ch-url"/>
+        </div>
+      </div>
+    </div>
+    <p class="err" id="chErr">Kam az kam ek channel daalo!</p>
+    <button class="add-btn" onclick="addChannel()">+ Aur channel add karo (max 4)</button>
+  </div>
+
+  <!-- STEP 2: CONTENT -->
+  <div class="card">
+    <div class="card-title"><span class="step">2</span> Locked Content</div>
+    <label>Download / Content Link</label>
+    <input type="text" id="lockedUrl" placeholder="https://drive.google.com/... ya koi bhi link"/>
+    <p class="err" id="urlErr">Link daalna zaruri hai!</p>
+  </div>
+
+  <!-- GENERATE -->
+  <button class="main-btn" id="genBtn" onclick="generateLink()">🔒 Locked Link Banao</button>
+
+  <!-- RESULT -->
+  <div class="result-box" id="resultBox">
+    <div class="result-label">✅ Tera Locked Link Ready Hai!</div>
+    <div class="result-url" id="resultUrl"></div>
+    <button class="copy-btn" id="copyBtn" onclick="copyLink()">📋 Link Copy Karo</button>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="how">
+    <h2>Yeh kaam kaise karta hai?</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">🔗</div>
+        <h3>Link Banao</h3>
+        <p>Channel aur content link daal ke locked link generate karo</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">📢</div>
+        <h3>Share Karo</h3>
+        <p>Apni videos mein yeh link share karo description mein</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">🚀</div>
+        <h3>Subs Barhein</h3>
+        <p>Visitor subscribe kare aur content unlock kare!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✅ Link copy ho gaya!</div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let chCount = 1;
+
+function addChannel(){
+  if(chCount >= 4){ showToast('Maximum 4 channels allowed!'); return; }
+  const list = document.getElementById('channelList');
+  const row = document.createElement('div');
+  row.className = 'channel-row';
+  row.innerHTML = `
+    <div style="flex:1"><label>Channel Name</label><input type="text" placeholder="e.g. Ali Mods 2" class="ch-name"/></div>
+    <div style="flex:1.5"><label>Channel URL</label><input type="text" placeholder="https://youtube.com/@channel" class="ch-url"/></div>
+    <button class="remove-btn" onclick="this.parentElement.remove();chCount--">×</button>
+  `;
+  list.appendChild(row);
+  chCount++;
+}
+
+function slugify(len=8){
+  return Math.random().toString(36).substring(2, 2+len);
+}
+
+async function generateLink(){
+  const btn = document.getElementById('genBtn');
+  // collect channels
+  const names = [...document.querySelectorAll('.ch-name')].map(i=>i.value.trim());
+  const urls = [...document.querySelectorAll('.ch-url')].map(i=>i.value.trim());
+  const lockedUrl = document.getElementById('lockedUrl').value.trim();
+
+  // validate
+  let valid = true;
+  if(!names[0] || !urls[0]){ document.getElementById('chErr').style.display='block'; valid=false; }
+  else document.getElementById('chErr').style.display='none';
+  if(!lockedUrl){ document.getElementById('urlErr').style.display='block'; valid=false; }
+  else document.getElementById('urlErr').style.display='none';
+  if(!valid) return;
+
+  btn.disabled = true;
+  btn.textContent = '⏳ Ban raha hai...';
+
+  const channels = names.map((n,i)=>({name:n,url:urls[i]})).filter(c=>c.name&&c.url);
+  const slug = slugify();
+
+  const { error } = await sb.from('links').insert({
+    slug,
+    channels: JSON.stringify(channels),
+    locked_url: lockedUrl
+  });
+
+  btn.disabled = false;
+  btn.textContent = '🔒 Locked Link Banao';
+
+  if(error){ showToast('Error! Dobara try karo.'); console.error(error); return; }
+
+  const finalLink = `${location.origin}/unlock.html?s=${slug}`;
+  document.getElementById('resultUrl').textContent = finalLink;
+  document.getElementById('resultBox').style.display = 'block';
+  document.getElementById('resultBox').scrollIntoView({behavior:'smooth'});
+}
+
+function copyLink(){
+  const url = document.getElementById('resultUrl').textContent;
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ Copy Ho Gaya!';
+    btn.classList.add('copied');
+    showToast('Link copy ho gaya!');
+    setTimeout(()=>{ btn.textContent='📋 Link Copy Karo'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>

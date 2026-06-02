@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>UnlockZone — Subscribe to Unlock</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;
+  --surface:#111118;
+  --surface2:#1a1a24;
+  --border:#2a2a38;
+  --accent:#00e5a0;
+  --accent2:#7c3aed;
+  --text:#f0f0f8;
+  --muted:#6b6b85;
+  --red:#ff4757;
+  --yt:#FF0000;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;overflow-x:hidden}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(124,58,237,0.12),transparent),
+             radial-gradient(ellipse 50% 40% at 90% 90%,rgba(0,229,160,0.07),transparent);
+  pointer-events:none;z-index:0
+}
+
+.wrap{width:100%;max-width:460px;position:relative;z-index:1}
+
+/* LOGO */
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;text-align:center;margin-bottom:2rem;color:var(--muted)}
+.logo span{color:var(--accent)}
+
+/* LOCK CARD */
+.lock-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:2rem;text-align:center;margin-bottom:1.25rem}
+.lock-icon{font-size:48px;margin-bottom:1rem;display:block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.lock-card h1{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:0.5rem}
+.lock-card p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* CHANNELS */
+.channels-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1.25rem}
+.section-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;display:flex;align-items:center;gap:6px}
+.section-label::before{content:'';width:3px;height:11px;background:var(--yt);border-radius:2px}
+
+.ch-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;transition:border-color 0.3s}
+.ch-item.subscribed{border-color:rgba(0,229,160,0.4)}
+.ch-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),#a855f7);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:15px;color:#fff;flex-shrink:0}
+.ch-info{flex:1;text-align:left}
+.ch-name{font-size:14px;font-weight:500;color:var(--text)}
+.ch-status{font-size:12px;color:var(--muted);margin-top:2px}
+.ch-item.subscribed .ch-status{color:var(--accent)}
+
+.sub-btn{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:all 0.2s;white-space:nowrap;flex-shrink:0}
+.sub-btn.pending{background:var(--yt);border:none;color:#fff}
+.sub-btn.pending:hover{background:#cc0000;transform:scale(1.05)}
+.sub-btn.done{background:rgba(0,229,160,0.15);border:1px solid rgba(0,229,160,0.3);color:var(--accent);cursor:default}
+
+/* TIMER CARD */
+.timer-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;text-align:center;display:none}
+.timer-card.visible{display:block}
+.timer-label{font-size:13px;color:var(--muted);margin-bottom:1.5rem}
+
+.circle-wrap{position:relative;width:120px;height:120px;margin:0 auto 1.25rem}
+svg.ring{width:120px;height:120px}
+.ring-bg{fill:none;stroke:var(--surface2);stroke-width:8}
+.ring-fg{fill:none;stroke:var(--accent);stroke-width:8;stroke-linecap:round;stroke-dasharray:339.3;stroke-dashoffset:339.3;transform:rotate(-90deg);transform-origin:60px 60px;transition:stroke-dashoffset 0.95s linear}
+.ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--text)}
+
+.timer-msg{font-size:14px;color:var(--muted)}
+
+/* UNLOCKED */
+.unlocked-card{background:var(--surface);border:1px solid rgba(0,229,160,0.3);border-radius:20px;padding:2rem;text-align:center;display:none}
+.unlocked-card.visible{display:block}
+.unlocked-icon{font-size:52px;margin-bottom:1rem;display:block;animation:pop 0.5s cubic-bezier(0.68,-0.55,0.27,1.55)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+.unlocked-card h2{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent);margin-bottom:0.5rem}
+.unlocked-card p{font-size:14px;color:var(--muted);margin-bottom:1.25rem}
+.unlock-btn{display:block;width:100%;padding:14px;background:var(--accent);color:#0a0a0f;border:none;border-radius:12px;font-size:15px;font-weight:700;font-family:'Syne',sans-serif;cursor:pointer;text-decoration:none;transition:all 0.2s}
+.unlock-btn:hover{background:#00ffb3;transform:translateY(-1px)}
+
+/* AD SPACE */
+.ad-box{background:var(--surface2);border:1px dashed var(--border);border-radius:12px;padding:1rem;text-align:center;margin-top:1rem;min-height:90px;display:flex;align-items:center;justify-content:center}
+.ad-box span{font-size:12px;color:var(--muted)}
+
+/* LOADING */
+.loading{text-align:center;padding:3rem}
+.loading p{color:var(--muted);font-size:14px;margin-top:1rem}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ERROR */
+.error-card{background:var(--surface);border:1px solid rgba(255,71,87,0.3);border-radius:20px;padding:2rem;text-align:center}
+.error-card h2{font-family:'Syne',sans-serif;font-size:18px;color:var(--red);margin-bottom:0.5rem}
+.error-card p{font-size:14px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">Unlock<span>Zone</span></div>
+
+  <!-- LOADING STATE -->
+  <div class="loading" id="loadingDiv">
+    <div class="spinner"></div>
+    <p>Link load ho rahi hai...</p>
+  </div>
+
+  <!-- MAIN CONTENT (hidden until loaded) -->
+  <div id="mainContent" style="display:none">
+
+    <!-- LOCK CARD -->
+    <div class="lock-card" id="lockCard">
+      <span class="lock-icon">🔒</span>
+      <h1>Content Locked Hai!</h1>
+      <p>Yeh content unlock karne ke liye neeche diye channels ko subscribe karo. Subscribe karne ke baad automatic unlock ho jayega.</p>
+    </div>
+
+    <!-- AD SPACE TOP -->
+    <div class="ad-box">
+      <span>Advertisement</span>
+    </div>
+    <div style="margin-bottom:1rem"></div>
+
+    <!-- CHANNELS -->
+    <div class="channels-card" id="channelsCard">
+      <div class="section-label">Subscribe Karo</div>
+      <div id="channelsList"></div>
+    </div>
+
+    <!-- TIMER -->
+    <div class="timer-card" id="timerCard">
+      <p class="timer-label">✅ Subscribe ho gaya! Thoda wait karo...</p>
+      <div class="circle-wrap">
+        <svg class="ring" viewBox="0 0 120 120">
+          <circle class="ring-bg" cx="60" cy="60" r="54"/>
+          <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="54"/>
+        </svg>
+        <div class="ring-num" id="ringNum">20</div>
+      </div>
+      <p class="timer-msg">Content unlock hone wala hai...</p>
+    </div>
+
+    <!-- UNLOCKED -->
+    <div class="unlocked-card" id="unlockedCard">
+      <span class="unlocked-icon">🎉</span>
+      <h2>Unlock Ho Gaya!</h2>
+      <p>Shukriya subscribe karne ka! Ab tera content ready hai.</p>
+      <a id="unlockBtn" href="#" class="unlock-btn" target="_blank">🚀 Content Access Karo</a>
+    </div>
+
+    <!-- AD SPACE BOTTOM -->
+    <div class="ad-box" style="margin-top:1rem">
+      <span>Advertisement</span>
+    </div>
+
+  </div>
+
+  <!-- ERROR STATE -->
+  <div id="errorDiv" style="display:none">
+    <div class="error-card">
+      <h2>❌ Link Invalid Hai</h2>
+      <p>Yeh link expire ho gayi ya galat hai. Content creator se dobara link maango.</p>
+    </div>
+  </div>
+
+</div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let lockedUrl = '';
+let channels = [];
+let subsLeft = 0;
+let timerRunning = false;
+
+async function init(){
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('s');
+  if(!slug){ showError(); return; }
+
+  const { data, error } = await sb.from('links').select('*').eq('slug', slug).single();
+  if(error || !data){ showError(); return; }
+
+  lockedUrl = data.locked_url;
+  channels = JSON.parse(data.channels);
+  subsLeft = channels.length;
+
+  buildChannels();
+  document.getElementById('loadingDiv').style.display = 'none';
+  document.getElementById('mainContent').style.display = 'block';
+}
+
+function buildChannels(){
+  const list = document.getElementById('channelsList');
+  list.innerHTML = '';
+  channels.forEach((ch, i) => {
+    const initials = ch.name.substring(0,2).toUpperCase();
+    const colors = ['#7c3aed','#0f6e56','#993556','#185fa5'];
+    const div = document.createElement('div');
+    div.className = 'ch-item';
+    div.id = `ch-item-${i}`;
+    div.innerHTML = `
+      <div class="ch-avatar" style="background:${colors[i%colors.length]}">${initials}</div>
+      <div class="ch-info">
+        <div class="ch-name">${ch.name}</div>
+        <div class="ch-status" id="ch-status-${i}">Subscribe karo unlock karne ke liye</div>
+      </div>
+      <button class="sub-btn pending" id="sub-btn-${i}" onclick="doSubscribe(${i})">Subscribe</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+function doSubscribe(i){
+  const btn = document.getElementById(`sub-btn-${i}`);
+  const status = document.getElementById(`ch-status-${i}`);
+  const item = document.getElementById(`ch-item-${i}`);
+
+  // Open YouTube channel
+  window.open(channels[i].url, '_blank');
+
+  btn.textContent = '✓ Done';
+  btn.className = 'sub-btn done';
+  status.textContent = '✅ Subscribed!';
+  item.classList.add('subscribed');
+
+  subsLeft--;
+  if(subsLeft <= 0) startTimer();
+}
+
+function startTimer(){
+  const timerCard = document.getElementById('timerCard');
+  const channelsCard = document.getElementById('channelsCard');
+  channelsCard.style.display = 'none';
+  timerCard.classList.add('visible');
+
+  let t = 20;
+  const ring = document.getElementById('ringFg');
+  const num = document.getElementById('ringNum');
+  const total = 339.3;
+
+  const interval = setInterval(()=>{
+    t--;
+    num.textContent = t;
+    ring.style.strokeDashoffset = total - (total * ((20-t)/20));
+    if(t <= 0){
+      clearInterval(interval);
+      showUnlocked();
+    }
+  }, 1000);
+}
+
+function showUnlocked(){
+  document.getElementById('timerCard').classList.remove('visible');
+  const card = document.getElementById('unlockedCard');
+  card.classList.add('visible');
+  document.getElementById('unlockBtn').href = lockedUrl;
+}
+
+function showError(){
+  document.getElementById('loadingDiv').style.display = 'none';
+  document.getElementById('errorDiv').style.display = 'block';
+}
+
+init();
+</script>
+</body>
+</html>
