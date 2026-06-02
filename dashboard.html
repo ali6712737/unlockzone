@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>UnlockZone — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07070f;--surface:#0f0f1a;--surface2:#161625;
+  --border:#1e1e30;--accent:#00e5a0;--accent2:#7c3aed;
+  --text:#eeeef8;--muted:#5a5a78;--red:#ff4757;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 800px 400px at 50% -80px,rgba(124,58,237,0.15),transparent);
+}
+.page{max-width:640px;margin:0 auto;padding:1.5rem 1.25rem 4rem;position:relative;z-index:1}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px}
+.logo em{color:var(--accent);font-style:normal}
+.nav-right{display:flex;align-items:center;gap:10px}
+.user-email{font-size:12px;color:var(--muted)}
+.logout-btn{
+  background:none;border:1px solid var(--border);
+  color:var(--muted);font-size:12px;padding:6px 12px;
+  border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all 0.2s;
+}
+.logout-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* SECTION TITLE */
+.sec-title{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);
+  margin-bottom:1rem;display:flex;align-items:center;gap:8px;
+}
+.sec-title::before{content:'';width:3px;height:11px;background:var(--accent);border-radius:2px}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem;margin-bottom:1.25rem}
+
+/* CHANNELS SETUP */
+.ch-row{display:grid;grid-template-columns:1fr 1.6fr auto;gap:8px;margin-bottom:10px;align-items:end}
+.field{display:flex;flex-direction:column}
+label{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-bottom:5px}
+input[type=text]{
+  width:100%;background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;padding:11px 13px;color:var(--text);font-size:14px;
+  font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;
+}
+input[type=text]:focus{border-color:rgba(0,229,160,0.4)}
+input[type=text]::placeholder{color:var(--muted)}
+
+.del{
+  width:36px;height:38px;border-radius:8px;
+  background:rgba(255,71,87,0.08);border:1px solid rgba(255,71,87,0.15);
+  color:var(--red);cursor:pointer;font-size:17px;
+  display:flex;align-items:center;justify-content:center;transition:background 0.2s;
+}
+.del:hover{background:rgba(255,71,87,0.18)}
+
+.add-ch{
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;border:1px dashed var(--border);color:var(--muted);
+  font-size:12px;padding:7px 13px;border-radius:8px;cursor:pointer;
+  transition:all 0.2s;font-family:'DM Sans',sans-serif;margin-top:4px;
+}
+.add-ch:hover{border-color:var(--accent);color:var(--accent)}
+
+.save-ch-btn{
+  width:100%;padding:11px;background:rgba(0,229,160,0.1);
+  border:1px solid rgba(0,229,160,0.25);color:var(--accent);
+  border-radius:10px;font-size:13px;font-weight:600;
+  font-family:'Syne',sans-serif;cursor:pointer;transition:all 0.2s;margin-top:0.75rem;
+}
+.save-ch-btn:hover{background:rgba(0,229,160,0.18)}
+.save-ch-btn:disabled{opacity:0.5;cursor:not-allowed}
+
+/* GENERATE */
+.gen-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:1.5rem;margin-bottom:1.25rem}
+.gen-btn{
+  width:100%;padding:13px;background:var(--accent);color:#07070f;
+  border:none;border-radius:11px;font-size:15px;font-weight:700;
+  font-family:'Syne',sans-serif;cursor:pointer;transition:all 0.18s;margin-top:0.75rem;
+}
+.gen-btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.gen-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;filter:none}
+
+/* RESULT */
+.result{display:none;margin-top:1rem;background:var(--surface2);border:1px solid rgba(0,229,160,0.2);border-radius:12px;padding:1.1rem}
+.result-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.result-url{font-size:12px;color:var(--text);word-break:break-all;background:var(--bg);padding:9px 11px;border-radius:7px;border:1px solid var(--border);margin-bottom:8px;font-family:monospace;line-height:1.5}
+.copy-btn{width:100%;padding:9px;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);color:var(--accent);border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.copy-btn:hover{background:rgba(0,229,160,0.15)}
+
+/* LINKS HISTORY */
+.link-item{background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:8px}
+.link-item:last-child{margin-bottom:0}
+.link-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.link-url{font-size:12px;color:var(--text);font-family:monospace;word-break:break-all;flex:1;margin-right:8px}
+.link-copy{background:none;border:1px solid var(--border);color:var(--muted);font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;transition:all 0.2s;flex-shrink:0}
+.link-copy:hover{border-color:var(--accent);color:var(--accent)}
+.link-meta{font-size:11px;color:var(--muted)}
+.link-meta span{margin-right:12px}
+
+.empty{text-align:center;padding:2rem;color:var(--muted);font-size:14px}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:1.5rem;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--accent);color:#07070f;
+  padding:10px 22px;border-radius:100px;
+  font-size:13px;font-weight:700;
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  z-index:999;white-space:nowrap;pointer-events:none;
+}
+.toast.up{transform:translateX(-50%) translateY(0)}
+
+/* LOADING */
+.spinner{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.75s linear infinite;margin:2rem auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:480px){.ch-row{grid-template-columns:1fr 1fr auto}}
+</style>
+</head>
+<body>
+<div class="page">
+  <nav>
+    <div class="logo">Unlock<em>Zone</em></div>
+    <div class="nav-right">
+      <span class="user-email" id="userEmail"></span>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- CHANNELS SETUP -->
+  <div class="card">
+    <div class="sec-title">Your YouTube Channels</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;line-height:1.6">Add your channels once — they will be automatically used every time you create a new link.</p>
+    <div id="chList"></div>
+    <button class="add-ch" onclick="addCh()">+ Add another channel (max 4)</button>
+    <button class="save-ch-btn" id="saveChBtn" onclick="saveChannels()">💾 Save Channels</button>
+  </div>
+
+  <!-- GENERATE NEW LINK -->
+  <div class="gen-card">
+    <div class="sec-title">Generate New Link</div>
+    <label>Your Download / Content Link</label>
+    <input type="text" id="lockedUrl" placeholder="https://drive.google.com/... or any link" style="margin-top:5px"/>
+    <button class="gen-btn" id="genBtn" onclick="generate()">🔒 Generate Locked Link</button>
+    <div class="result" id="result">
+      <div class="result-tag">✅ Locked Link Ready!</div>
+      <div class="result-url" id="resultUrl"></div>
+      <button class="copy-btn" onclick="copyResult()">📋 Copy Link</button>
+    </div>
+  </div>
+
+  <!-- LINKS HISTORY -->
+  <div class="card">
+    <div class="sec-title">Your Links History</div>
+    <div id="historyList"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let currentUser = null;
+let savedChannels = [];
+let chCount = 1;
+
+async function init(){
+  const {data:{session}} = await sb.auth.getSession();
+  if(!session){ location.href='login.html'; return; }
+  currentUser = session.user;
+  document.getElementById('userEmail').textContent = currentUser.email;
+  await loadProfile();
+  await loadHistory();
+}
+
+async function loadProfile(){
+  const {data} = await sb.from('profiles').select('channels').eq('id',currentUser.id).single();
+  if(data && data.channels){
+    savedChannels = JSON.parse(data.channels);
+  }
+  buildChInputs(savedChannels);
+}
+
+function buildChInputs(chs){
+  const list = document.getElementById('chList');
+  list.innerHTML = '';
+  chCount = 0;
+  const arr = chs.length ? chs : [{name:'',url:''}];
+  arr.forEach((ch,i)=>{
+    addChRow(ch.name||'', ch.url||'');
+  });
+}
+
+function addChRow(name='',url=''){
+  const list = document.getElementById('chList');
+  const i = chCount;
+  const d = document.createElement('div');
+  d.className='ch-row';
+  d.id=`cr${i}`;
+  d.innerHTML=`
+    <div class="field"><label>Channel Name</label><input type="text" class="ch-name" value="${name}" placeholder="My Gaming Channel"/></div>
+    <div class="field"><label>Channel URL</label><input type="text" class="ch-url" value="${url}" placeholder="https://youtube.com/@channel"/></div>
+    ${chCount>0?`<button class="del" onclick="document.getElementById('cr${i}').remove();chCount--">×</button>`:'<div></div>'}
+  `;
+  list.appendChild(d);
+  chCount++;
+}
+
+function addCh(){
+  if(chCount>=4){ toast('Maximum 4 channels allowed.'); return; }
+  addChRow('','');
+}
+
+async function saveChannels(){
+  const names = [...document.querySelectorAll('.ch-name')].map(i=>i.value.trim());
+  const urls  = [...document.querySelectorAll('.ch-url')].map(i=>i.value.trim());
+  const channels = names.map((n,i)=>({name:n,url:urls[i]})).filter(c=>c.name&&c.url);
+  if(!channels.length){ toast('Add at least one channel!'); return; }
+
+  const btn = document.getElementById('saveChBtn');
+  btn.disabled=true; btn.textContent='Saving...';
+
+  const {data:existing} = await sb.from('profiles').select('id').eq('id',currentUser.id).single();
+  if(existing){
+    await sb.from('profiles').update({channels:JSON.stringify(channels)}).eq('id',currentUser.id);
+  } else {
+    await sb.from('profiles').insert({id:currentUser.id,email:currentUser.email,channels:JSON.stringify(channels)});
+  }
+
+  savedChannels = channels;
+  btn.disabled=false; btn.textContent='💾 Save Channels';
+  toast('Channels saved! ✅');
+}
+
+function rnd(n=8){ return Math.random().toString(36).substring(2,2+n); }
+
+async function generate(){
+  if(!savedChannels.length){ toast('Please save your channels first!'); return; }
+  const locked = document.getElementById('lockedUrl').value.trim();
+  if(!locked){ toast('Please enter your content link!'); return; }
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled=true; btn.textContent='⏳ Generating...';
+
+  const slug = rnd();
+  const {error} = await sb.from('links').insert({
+    slug,
+    channels: JSON.stringify(savedChannels),
+    locked_url: locked,
+    user_id: currentUser.id
+  });
+
+  btn.disabled=false; btn.textContent='🔒 Generate Locked Link';
+  if(error){ toast('Error! Please try again.'); console.error(error); return; }
+
+  const link = `${location.origin}/unlock.html?s=${slug}`;
+  document.getElementById('resultUrl').textContent = link;
+  document.getElementById('result').style.display='block';
+  document.getElementById('lockedUrl').value='';
+  await loadHistory();
+}
+
+function copyResult(){
+  const url = document.getElementById('resultUrl').textContent;
+  navigator.clipboard.writeText(url).then(()=>toast('Link copied! ✅'));
+}
+
+async function loadHistory(){
+  const {data,error} = await sb.from('links').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  const list = document.getElementById('historyList');
+  if(error||!data||!data.length){
+    list.innerHTML='<div class="empty">No links yet. Generate your first locked link above!</div>';
+    return;
+  }
+  list.innerHTML = data.map(l=>{
+    const link = `${location.origin}/unlock.html?s=${l.slug}`;
+    const date = new Date(l.created_at).toLocaleDateString();
+    const chs = JSON.parse(l.channels||'[]');
+    return `
+      <div class="link-item">
+        <div class="link-top">
+          <div class="link-url">${link}</div>
+          <button class="link-copy" onclick="copyLink('${link}')">Copy</button>
+        </div>
+        <div class="link-meta">
+          <span>📅 ${date}</span>
+          <span>📺 ${chs.map(c=>c.name).join(', ')}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function copyLink(url){
+  navigator.clipboard.writeText(url).then(()=>toast('Copied! ✅'));
+}
+
+async function logout(){
+  await sb.auth.signOut();
+  location.href='login.html';
+}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('up');
+  setTimeout(()=>t.classList.remove('up'),3000);
+}
+
+init();
+</script>
+</body>
+</html>
